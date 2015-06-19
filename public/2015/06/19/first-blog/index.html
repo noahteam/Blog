@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>test blog - Noah Team&#39;s Blog</title>
+    <title>How to set up and configure hexo to write posts on this blog - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -25,7 +25,7 @@
     </h1>
     
         <a class="header-right-picture" href="/#about">
-            <img class="header-picture" src="/assets/images/avatar.png"/>
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
         </a>
     
 </header>
@@ -34,7 +34,7 @@
     <div class="sidebar-profile">
         <a href="/#about">
             
-            <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
             
         </a>
         <span class="sidebar-profile-name">Noah</span>
@@ -123,7 +123,7 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">test blog</h1>
+        <h1 class="post-title" itemprop="headline">How to set up and configure hexo to write posts on this blog</h1>
     
     <div class="post-meta">
     <time  itemprop="datePublished" content="Fri Jun 19 2015 08:39:15 GMT+0800">
@@ -134,13 +134,47 @@
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <p>hehehe</p>
+        <h2 id="About">About</h2><p>This blog mainly focuses on technical sharings and discussions, and any interesting topics related with Agile or Scrum may also appear.</p>
+<p>In this post, I will show how to set up the environment and configure, and how to write posts and publish.</p>
+<h2 id="Set_up_and_Configure">Set up and Configure</h2><ul>
+<li><p><strong>Set up Git</strong><br>This blog on GitHub has 2 repositories: </p>
+<ul>
+<li>noahteam.github.io: the repository contains compiled blog    </li>
+<li>Blog: the source repository<br>I have added all our team members as collaborator, so you only need to clone Blog repository to your local, then you will be good to contribute<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/noahteam/Blog.git</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>The blog repository now alreayd has everything inside, including hexo, hexo thems, and some posts</p>
+</li>
+<li><p><strong>Set up Hexo</strong><br>Open git or powershell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>after installing hexo, need to init Hexo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>I have configured the _config.yml file and it supports deployment to our github.io page, in case you have error when publishing due to deployer issue, can try this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Writing_and_Publishing">Writing and Publishing</h2><p>Now you have everything ready, it is writting time!<br>Before you proceed, get latest from Blog repository<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>To create a new post, just use</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post [Title of the post]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>To generate and publish</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment">#compile and generate</span></span><br><span class="line">hexo s <span class="comment">#open local server and view, not necessary</span></span><br><span class="line">hexo d <span class="comment">#publish</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
         
             
         
     </div>
     <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/git/">git</a>
+
+            </div>
         
         <div class="post-actions-wrap">
     <nav>
@@ -155,7 +189,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/19/hello-world/" data-tooltip="Hello World">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -165,17 +199,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -190,6 +224,10 @@
 </div>
 
 
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
         
     </div>
 </article>
@@ -218,7 +256,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/19/hello-world/" data-tooltip="Hello World">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -228,17 +266,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/test-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/first-blog/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -262,7 +300,7 @@
             <i class="fa fa-remove"></i>
         </div>
         
-            <img id="about-card-picture" src="/assets/images/avatar.png"/>
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
         
             <h4 id="about-card-name">Noah</h4>
         
@@ -275,6 +313,17 @@
     <!--SCRIPTS-->
 <script src="/assets/js/script.min.js" type="text/javascript"></script>
 <!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
 
 
 
