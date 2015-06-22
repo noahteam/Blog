@@ -56,4 +56,3 @@ git pull
 ![image is died](https://lh3.googleusercontent.com/PzU-BJ6Y-carpM6hp8COX3uxWMEfAo5LRCmn1mzj1g=w804-h508-no "Error one")
 
 > Delete **.deploy_git** folder and run **hexo clean**
-
