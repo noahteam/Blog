@@ -1,7 +1,7 @@
 title: How to set up and configure hexo to write posts on this blog
 subtitle: By Ji Zhoubo
 date: 2015-06-19 08:39:15
-tags: git
+tags: [git,hexo]
 ---
 ## About
 This blog mainly focuses on technical sharings and discussions, and any interesting topics related with Agile or Scrum may also appear.

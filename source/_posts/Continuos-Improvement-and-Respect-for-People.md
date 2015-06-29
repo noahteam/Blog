@@ -1,7 +1,7 @@
 title: Continuos Improvement and Respect for People
 date: 2015-06-29 22:27:10
 author: sam huang
-tags: lean, scrum, agile
+tags: [lean, scrum, agile]
 ---
 
 TOYOTA Senior Advisor Katsuaki Watanabe:
