@@ -55,6 +55,7 @@ git pull
 After all that, you need to commit and push all your sources into Blog repository
 
 ```bash
+git add -A
 git commit -m 'your comment'
 git push
 ```
