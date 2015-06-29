@@ -1,5 +1,6 @@
 title: 'Continuos Improvement and Respect for People'
 date: 2015-06-29 22:27:10
+author:sam huang
 tags:
 ---
 TOYOTA Senior Advisor Katsuaki Watanabe:
@@ -13,5 +14,7 @@ kaizen-continuos improvement. The root of the Toyota Way is to be dissatisfied w
 to ask constantly, "Why are we doing this?"
 
 It reminds me of sprint retrospective in scrum. During retrospective, we stop and review what can be done better to deliver the value of the story. 
-<Agile Retrospectives: Making Good Teams Great> indicates gathering data, generating insight, and deciding what to do for improvement unfolds retrospective.Its the kaizen-continuos improvement lead by close observation during the sprint. Team also thanks each other in retrospective for the assistence received, which is the action of respect for people. We appreaciate everyone's effort to deliver story value through teamwork.      
+<Agile Retrospectives: Making Good Teams Great> indicates gathering data, generating insight, and deciding what to do for improvement unfolds retrospective.
+It's the kaizen-continuos improvement lead by close observation during the sprint. Team also thanks each other in retrospective for the assistence received, which is the action of respect for people. 
+We appreaciate everyone's effort to deliver story value through teamwork.      
 
