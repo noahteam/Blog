@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Connection Timeout Issue for MSSQL - Noah Team&#39;s Blog</title>
+    <title>Use Jenkins and MsDeploy for website continuous delivery and deployment - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -123,10 +123,10 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
+        <h1 class="post-title" itemprop="headline">Use Jenkins and MsDeploy for website continuous delivery and deployment</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Mon Jun 29 2015 21:40:36 GMT+0800">
+    <time  itemprop="datePublished" content="Mon Jun 29 2015 21:45:15 GMT+0800">
         Jun 29, 2015
     </time>
     
@@ -134,16 +134,49 @@
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
-<h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
-<p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
-<p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
-<p>In the meantime, we request to use the following workarounds:</p>
-<ol>
-<li>Increase the connection string timeout to 150 sec. This will give the first attempt enough time to connect( 150* .08=12 sec)</li>
-<li>Add MinPool Size=20 in the connection string. This will always maintain a minimum of 20 connections in the pool and there will be less chances of creating new connection, thus reducing the chance of this error.</li>
-<li>Improve the network performance. Update your NIC drivers to the latest firmware version. We have seen network latency when your NIC card is not compatible with certain Scalable Networking Pack settings. If you are on Windows Vista SP1 or above you may also consider disabling Receive Window Auto-Tuning. If you have NIC teaming enabled, disabling it would be a good option.</li>
+        <h2 id="About">About</h2><p>Normally for software development, we will have at least 2 environments: local development and production environment.  It will be a tough task for developer or server administrators to do manual release if there are too many projects or the release is too frequent.</p>
+<p>In this post, I will show how to config Jenkins and set up MsDeploy to do continuous delivery and automatic website deployment .</p>
+<h2 id="Prerequiste">Prerequiste</h2><p>This post will assume you have already set up your Jenkins, you are using TFS for source control (of course it is just small modification if you are using Git or SVN), and you are using IIS (version &gt;= 7.0) as your web server.</p>
+<h2 id="Steps">Steps</h2><ul>
+<li><p><strong>Set up Jenkins job for pull latest and build</strong><br>This step is similar as what we did for other projects which are running on our Jenkins for continuous integration and testing.</p>
+<p>Use Jenkins TFS plug-in to get latest periodically</p>
+<p><img src="https://lh3.googleusercontent.com/GLDdbnZI1dwKKa69vwSFJrteO6pBnVbtWEXmM2usz3wGPFskSCPZ6SLq9vQUD5USK_VLXQf6_prr6UM=w1566-h620" alt="alt text"></p>
+<p>Use Jenkins MSBuild plug-in or use powershell to build solution</p>
+<p><img src="https://lh6.googleusercontent.com/NZaaq3_pH8o6L75S_-0Rgw5wPvGpj4NkULMitpxBI_bU_P4WQqUl9PoPC1wOX3Kwy5ThSAFx5En-R5A=w1566-h620" alt="alt text"></p>
+</li>
+</ul>
+<ul>
+<li><strong>Set up msdeploy</strong><ol>
+<li><a href="http://www.iis.net/downloads/microsoft/web-deploy" target="_blank" rel="external">Download</a> and install msdeploy on your both source and target server</li>
+<li>Ensure <strong>Web Management Service</strong> and <strong>Web Deployment Agent Service</strong> are running on your target server, they are necessary for remote deployment</li>
 </ol>
+</li>
+</ul>
+<ul>
+<li><strong>Prepare domain administrator account</strong><br>To use msdeploy to deploy website to target server’s IIS root path, the account must be a <strong>domain administrator account</strong>.<br>Sounds weird right? Since it only needs to be that server’s admin to have full permission for folders. Someone believe this is a bug.</li>
+</ul>
+<ul>
+<li><p><strong>Powershell to run msdeploy</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msdeploy.exe -allowUntrusted=true -verb:sync -source:contentpath=&#39;D:\WS\ExampleProject&#39; -dest:contentpath=F:\webfolder,computerName=exampleproject.example.com,Username=&#39;yourdomain\username&#39;,Password=&#39;password&#39; -skip:objectName=dirPath,absolutePath=&#34;config&#34; -skip:objectName=filePath,absolutePath=&#34;web.config&#34;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>-verb:sync</strong>, execute operation which synchronizes data between source and destination</li>
+<li><strong>source:contentpath</strong>, specifies we are using contentpath as provider, and will sync everything from that directory to target</li>
+<li><strong>dest:contentpath</strong>, specifies the folder that content will be synced to</li>
+<li><strong>computerName=exampleproject.example.com,Username=’yourdomain\username’,Password=’password’</strong>, the target server with IIS</li>
+<li><strong>skip</strong>, to ignore folders or files, e.g. we don’t want local config files by synced to production environment, which may break the website</li>
+</ul>
+</li>
+</ul>
+<p> We have set up another job on Jenkins to auto deploy website to production environment</p>
+<p> When run the script, will get output like this:<br> <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Info: Updating file (F:\exampleproject\web_root\menu\Main.aspx).&#10;Info: Updating file (F:\exampleproject\web_root\menu\Main.aspx.cs).&#10;Info: Updating file (F:\exampleproject\web_root\menu\Menu.aspx).&#10;Info: Updating file (F:\exampleproject\web_root\menu\M&#10;&#10;http://santexgroup.com/blog/continuous-delivery-using-asp-net-mvc4-web-api/&#10;&#10;http://blog.winhost.com/using-msdeploy-to-publish-your-site/enu.aspx.cs).&#10;Info: Updating file (F:\exampleproject\web_root\public\access-forbidden.html).&#10;Total changes: 259 (0 added, 0 deleted, 259 updated, 0 parameters changed, 21623463 bytes copied)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Trouble_Shooting">Trouble Shooting</h2><p>During the set up, I have met some issues, and I found this page is very useful for understanding those issues and trouble shooting</p>
+<blockquote>
+<p>For certain common error cases, Web Deploy will show an error code. This table explains why the error occurs and steps the user can take to avoid the error. Note that the error message may be different depending on how Web Deploy is invoked e.g. Microsoft WebMatrix chooses to show custom error messages. The error messages listed below show up on the msdeploy.exe command line and API:<br><a href="http://www.iis.net/learn/publish/troubleshooting-web-deploy/web-deploy-error-codes" target="_blank" rel="external">http://www.iis.net/learn/publish/troubleshooting-web-deploy/web-deploy-error-codes</a></p>
+</blockquote>
+<h2 id="More">More</h2><p>If you have interest to know more about msdeploy and its advanced usage, below are some good references:</p>
+<p> <a href="https://technet.microsoft.com/en-us/library/dd568996(v=ws.10).aspx" target="_blank" rel="external">https://technet.microsoft.com/en-us/library/dd568996(v=ws.10).aspx</a></p>
+<p> <a href="http://santexgroup.com/blog/continuous-delivery-using-asp-net-mvc4-web-api/" target="_blank" rel="external">http://santexgroup.com/blog/continuous-delivery-using-asp-net-mvc4-web-api/</a></p>
+<p> <a href="http://blog.winhost.com/using-msdeploy-to-publish-your-site/" target="_blank" rel="external">http://blog.winhost.com/using-msdeploy-to-publish-your-site/</a></p>
 
         
             
@@ -154,7 +187,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/mssql/">mssql</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Jenkins-msdeploy-CI/">Jenkins, msdeploy, CI</a>
 
             </div>
         
@@ -163,7 +196,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/"  data-tooltip="Use Jenkins and MsDeploy for website continuous delivery and deployment">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/"  data-tooltip="Introduction to CSS3 @media query">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -171,7 +204,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/" data-tooltip="How to filter a IP from a IP range">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/connection-timeout-issue-for-mssql/" data-tooltip="Connection Timeout Issue for MSSQL">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -181,17 +214,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -230,7 +263,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/"  data-tooltip="Use Jenkins and MsDeploy for website continuous delivery and deployment">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/"  data-tooltip="Introduction to CSS3 @media query">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -238,7 +271,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/" data-tooltip="How to filter a IP from a IP range">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/connection-timeout-issue-for-mssql/" data-tooltip="Connection Timeout Issue for MSSQL">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -248,17 +281,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
