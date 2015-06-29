@@ -1,7 +1,7 @@
 title: 'Continuos Improvement and Respect for People'
 date: 2015-06-29 22:27:10
 author:sam huang
-tags:
+tags: lean, scrum, agile
 ---
 TOYOTA Senior Advisor Katsuaki Watanabe:
 The Toyota Way has two main pillars:continuos improvement and respect for people. 
