@@ -1,7 +1,7 @@
 title: Introduction to CSS3 @media query
 subtitle: By Zhang Guoqiang
 date: 2015-06-29 21:59:15
-tags: git
+tags: css
 ---
 ## About
 For responsive design, sometimes we need to apply different style for specific media device or screen size.
