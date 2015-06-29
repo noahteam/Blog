@@ -17,11 +17,11 @@ This post will assume you have already set up your Jenkins, you are using TFS fo
  
  Use Jenkins TFS plug-in to get latest periodically
 
- ![alt text](https://lh3.googleusercontent.com/GLDdbnZI1dwKKa69vwSFJrteO6pBnVbtWEXmM2usz3wGPFskSCPZ6SLq9vQUD5USK_VLXQf6_prr6UM=w1566-h620)
+ ![alt text](http://7qn89w.com1.z0.glb.clouddn.com/use-jenkins-and-msdeploy-for-website-deployment-1.jpg)
  
  Use Jenkins MSBuild plug-in or use powershell to build solution
 
- ![alt text](https://lh6.googleusercontent.com/NZaaq3_pH8o6L75S_-0Rgw5wPvGpj4NkULMitpxBI_bU_P4WQqUl9PoPC1wOX3Kwy5ThSAFx5En-R5A=w1566-h620)
+ ![alt text](http://7qn89w.com1.z0.glb.clouddn.com/use-jenkins-and-msdeploy-for-website-deployment-2.jpg)
 
 
 - **Set up msdeploy**
