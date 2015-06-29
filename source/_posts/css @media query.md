@@ -66,6 +66,10 @@ For the second query **handheld and (orientation: landscape)**, **handheld** is 
 
 So the whole query list means for all devices if viewport width is larger than 700px or for handheld devices the orientation is landscape the style will be applied.
 
+## References
+[https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries)
+[https://developer.mozilla.org/en-US/docs/Web/CSS/@media](https://developer.mozilla.org/en-US/docs/Web/CSS/@media)
+
 
 
 
