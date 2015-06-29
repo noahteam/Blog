@@ -51,6 +51,13 @@ git pull
  hexo s #open local server and view, not necessary
  hexo d #publish
  ```
+
+After all that, you need to commit and push all your sources into Blog repository
+
+```bash
+git commit -m 'your comment'
+git push
+```
  
 ## Trouble Shooting
 ![image is died](https://lh3.googleusercontent.com/PzU-BJ6Y-carpM6hp8COX3uxWMEfAo5LRCmn1mzj1g=w482-h304-no "Error one")
