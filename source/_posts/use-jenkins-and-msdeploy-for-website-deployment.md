@@ -1,7 +1,7 @@
 title: Use Jenkins and MsDeploy for website continuous delivery and deployment
 Author: Ji Zhoubo
 date: 2015-06-29 21:45:15
-tags: Jenkins, msdeploy, CI
+tags: [Jenkins, msdeploy, CI]
 ---
 ## About
 Normally for software development, we will have at least 2 environments: local development and production environment.  It will be a tough task for developer or server administrators to do manual release if there are too many projects or the release is too frequent.
