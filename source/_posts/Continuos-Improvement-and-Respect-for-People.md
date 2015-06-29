@@ -3,6 +3,7 @@ date: 2015-06-29 22:27:10
 author:sam huang
 tags: lean, scrum, agile
 ---
+
 TOYOTA Senior Advisor Katsuaki Watanabe:
 The Toyota Way has two main pillars:continuos improvement and respect for people. 
 Respect is necessary to work with people. By "People" we mean employees, supply partners, and customers.
