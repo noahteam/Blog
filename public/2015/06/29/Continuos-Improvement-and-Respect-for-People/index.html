@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>How to set up and configure hexo to write posts on this blog - Noah Team&#39;s Blog</title>
+    <title>Continuos Improvement and Respect for People - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -123,51 +123,20 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">How to set up and configure hexo to write posts on this blog</h1>
+        <h1 class="post-title" itemprop="headline">Continuos Improvement and Respect for People</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Fri Jun 19 2015 08:39:15 GMT+0800">
-        Jun 19, 2015
+    <time  itemprop="datePublished" content="Mon Jun 29 2015 22:27:10 GMT+0800">
+        Jun 29, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>This blog mainly focuses on technical sharings and discussions, and any interesting topics related with Agile or Scrum may also appear.</p>
-<p>In this post, I will show how to set up the environment and configure, and how to write posts and publish.</p>
-<h2 id="Set_up_and_Configure">Set up and Configure</h2><ul>
-<li><p><strong>Set up Git</strong><br>This blog on GitHub has 2 repositories: </p>
-<ul>
-<li>noahteam.github.io: the repository contains compiled blog    </li>
-<li>Blog: the source repository<br>I have added all our team members as collaborator, so you only need to clone Blog repository to your local, then you will be good to contribute<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/noahteam/Blog.git</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>The blog repository now alreayd has everything inside, including hexo, hexo thems, and some posts</p>
-</li>
-<li><p><strong>Set up Hexo</strong><br>Open git or powershell</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
-<p>after installing hexo, need to init Hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>I have configured the _config.yml file and it supports deployment to our github.io page, in case you have error when publishing due to deployer issue, can try this:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="Writing_and_Publishing">Writing and Publishing</h2><p>Now you have everything ready, it is writting time!<br>Before you proceed, get latest from Blog repository<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>To create a new post, just use</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post [Title of the post]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>To generate and publish</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment">#compile and generate</span></span><br><span class="line">hexo s <span class="comment">#open local server and view, not necessary</span></span><br><span class="line">hexo d <span class="comment">#publish</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>After all that, you need to commit and push all your sources into Blog repository</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">'your comment'</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-<h2 id="Trouble_Shooting">Trouble Shooting</h2><p><img src="https://lh3.googleusercontent.com/PzU-BJ6Y-carpM6hp8COX3uxWMEfAo5LRCmn1mzj1g=w482-h304-no" alt="image is died" title="Error one"></p>
-<blockquote>
-<p>Delete <strong>.deploy_git</strong> folder and run <strong>hexo clean</strong></p>
-</blockquote>
+        <p>TOYOTA Senior Advisor Katsuaki Watanabe:<br>The Toyota Way has two main pillars:continuos improvement and respect for people.<br>Respect is necessary to work with people. By “People” we mean employees, supply partners, and customers.<br>… We don’t mean just the end customer; on the assembly line the person at the next workstation is also your<br>customer. That leads to teamwork.  If you adopt that principle, you’ll also keep analyzing what you do<br>in order to see if you’re doing things perfectly, so you’re not troubling your customer.<br>That nutures your ability to idnetify problems, and if you closely observe things, it will lead to<br>kaizen-continuos improvement. The root of the Toyota Way is to be dissatisfied with the status quo; you have<br>to ask constantly, “Why are we doing this?”</p>
+<p>It reminds me of sprint retrospective in scrum. During retrospective, we stop and review what can be done better to deliver the value of the story. </p>
+<p><agile retrospectives:="" making="" good="" teams="" great=""> indicates gathering data, generating insight, and deciding what to do for improvement unfolds retrospective.<br>It’s the kaizen-continuos improvement lead by close observation during the sprint. Team also thanks each other in retrospective for the assistence received, which is the action of respect for people.<br>We appreaciate everyone’s effort to deliver story value through teamwork.      </agile></p>
 
         
             
@@ -178,7 +147,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/git/">git</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/agile/">agile</a> <a class="tag tag--primary tag--small t-link" href="/tags/lean/">lean</a> <a class="tag tag--primary tag--small t-link" href="/tags/scrum/">scrum</a>
 
             </div>
         
@@ -187,7 +156,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/"  data-tooltip="How to filter a IP from a IP range">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -195,7 +164,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -205,17 +174,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -254,7 +223,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/"  data-tooltip="How to filter a IP from a IP range">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -262,7 +231,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -272,17 +241,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/19/first-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>

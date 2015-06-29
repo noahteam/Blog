@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>Introduction to CSS3 @media query - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Introduction to CSS3 @media query</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Mon Jun 29 2015 21:59:15 GMT+0800">
+        Jun 29, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <h2 id="About">About</h2><p>For responsive design, sometimes we need to apply different style for specific media device or screen size.<br>By using CSS3 @media query, the mission will be quite easy to accomplish.</p>
+<h2 id="Syntax">Syntax</h2><p>First let’s have a look at where media query can be applied.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- CSS media query on a link element --&gt;</span><br><span class="line">&lt;link rel="stylesheet" media="(max-width: 800px)" href="example.css" /&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- CSS media query within a stylesheet --&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">@media (max-width: 600px) &#123;</span><br><span class="line">  .facet_sidebar &#123;</span><br><span class="line">    display: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>When the media attribute query in <link> tag is false, the stylesheet will not be applied to the document.(But it will still be downloaded.)</p>
+<p>In the stylesheet we can also put css style under @media query to determine when should be applied.</p>
+<p>The detailed syntax can be expressed as below</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">media_query_list: <span class="variable">&lt;media_query&gt;</span> [, <span class="variable">&lt;media_query&gt;</span> ]<span class="keyword">*</span></span><br><span class="line">media_query: [[only |<span class="string"> not]? &lt;media_type&gt; [ and &lt;expression&gt; ]*]</span><br><span class="line">  </span>|<span class="string"> &lt;expression&gt; [ and &lt;expression&gt; ]*</span><br><span class="line">expression: ( &lt;media_feature&gt; [: &lt;value&gt;]? )</span><br><span class="line">media_type: all </span>|<span class="string"> aural </span>|<span class="string"> braille </span>|<span class="string"> handheld </span>|<span class="string"> print </span>|</span><br><span class="line">  projection |<span class="string"> screen </span>|<span class="string"> tty </span>|<span class="string"> tv </span>|<span class="string"> embossed</span><br><span class="line">media_feature: width </span>|<span class="string"> min-width </span>|<span class="string"> max-width</span><br><span class="line">  </span>|<span class="string"> height </span>|<span class="string"> min-height </span>|<span class="string"> max-height</span><br><span class="line">  </span>|<span class="string"> device-width </span>|<span class="string"> min-device-width </span>|<span class="string"> max-device-width</span><br><span class="line">  </span>|<span class="string"> device-height </span>|<span class="string"> min-device-height </span>|<span class="string"> max-device-height</span><br><span class="line">  </span>|<span class="string"> aspect-ratio </span>|<span class="string"> min-aspect-ratio </span>|<span class="string"> max-aspect-ratio</span><br><span class="line">  </span>|<span class="string"> device-aspect-ratio </span>|<span class="string"> min-device-aspect-ratio </span>|<span class="string"> max-device-aspect-ratio</span><br><span class="line">  </span>|<span class="string"> color </span>|<span class="string"> min-color </span>|<span class="string"> max-color</span><br><span class="line">  </span>|<span class="string"> color-index </span>|<span class="string"> min-color-index </span>|<span class="string"> max-color-index</span><br><span class="line">  </span>|<span class="string"> monochrome </span>|<span class="string"> min-monochrome </span>|<span class="string"> max-monochrome</span><br><span class="line">  </span>|<span class="string"> resolution </span>|<span class="string"> min-resolution </span>|<span class="string"> max-resolution</span><br><span class="line">  </span>|<span class="string"> scan </span>|<span class="string"> grid</span></span><br></pre></td></tr></table></figure>
+<p>@media should follow by a list of media queries seperated by comma. Each media query contains logic operator, media type and expression. Media expression consists of meida feature and it’s value.<br>Media feature usually starts with min or max to indicate greater than or less than. The purpose is replacing &lt; or &gt; to avoid confussion in html. All parts bracketed with [] is optional.</p>
+<p>We take below media query as example.<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@media</span> (<span class="attribute">min-width</span>: <span class="number">700px</span>), handheld and (<span class="attribute">orientation</span>: landscape) &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>The above statement contains two media queries <strong>(min-width:700px)</strong> and <strong>handheld and (orientation: landscape)</strong><br>The first query <strong>min-width:700px</strong> consists of media feature and its value. Because media type is not specified. So it applies to all media types.<br>Media feature uses min as greater than. So the whole query means for any media type if the viewport width is greater than 700px then it is true.</p>
+<p>For the second query <strong>handheld and (orientation: landscape)</strong>, <strong>handheld</strong> is the media type for handheld devices. <strong>and</strong> is the logic operator which connects its before and after conditions.<br><strong>orientation: landscape</strong> indicates whether the viewport is landcape (width is bigger than height).</p>
+<p>So the whole query list means for all devices if viewport width is larger than 700px or for handheld devices the orientation is landscape the style will be applied.</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/css/">css</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/"  data-tooltip="Continuos Improvement and Respect for People">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/" data-tooltip="Use Jenkins and MsDeploy for website continuous delivery and deployment">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/"  data-tooltip="Continuos Improvement and Respect for People">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/" data-tooltip="Use Jenkins and MsDeploy for website continuous delivery and deployment">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/css @media query/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>
