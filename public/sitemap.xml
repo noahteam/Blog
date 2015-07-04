@@ -2,63 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://noahteam.com/2015/07/03/use-testdata-repository-to-simplify-integration-test/</loc>
-    <lastmod>2015-07-03T10:28:17.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/29/css%20@media%20query/</loc>
-    <lastmod>2015-07-02T07:04:16.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/24/user-story-mapping/</loc>
-    <lastmod>2015-07-02T07:04:16.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/28/reading-response-peter-drucker/</loc>
-    <lastmod>2015-07-02T07:04:16.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/29/filter-ip-in-a-ip-range/</loc>
-    <lastmod>2015-07-02T07:04:16.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/</loc>
-    <lastmod>2015-06-29T16:34:42.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/19/first-blog/</loc>
-    <lastmod>2015-06-29T16:24:15.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/</loc>
-    <lastmod>2015-06-29T16:23:55.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/</loc>
-    <lastmod>2015-06-29T13:40:36.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://noahteam.com/all-archives/index.html</loc>
-    <lastmod>2015-06-19T15:54:24.000Z</lastmod>
+    <loc>http://noahteam.com/2015/07/04/javascript-unit-test-with-jasmine-karma/</loc>
+    <lastmod>2015-07-04T15:11:04.331Z</lastmod>
   </url>
   
   <url>
     <loc>http://noahteam.com/all-tags/index.html</loc>
-    <lastmod>2015-06-19T15:53:57.000Z</lastmod>
+    <lastmod>2015-07-04T14:59:26.955Z</lastmod>
   </url>
   
   <url>
     <loc>http://noahteam.com/all-categories/index.html</loc>
-    <lastmod>2015-06-19T15:52:50.000Z</lastmod>
+    <lastmod>2015-07-04T14:59:26.954Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/all-archives/index.html</loc>
+    <lastmod>2015-07-04T14:59:26.953Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/24/user-story-mapping/</loc>
+    <lastmod>2015-07-04T14:59:26.952Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/03/use-testdata-repository-to-simplify-integration-test/</loc>
+    <lastmod>2015-07-04T14:59:26.951Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/</loc>
+    <lastmod>2015-07-04T14:59:26.950Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/19/first-blog/</loc>
+    <lastmod>2015-07-04T14:59:26.949Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/28/reading-response-peter-drucker/</loc>
+    <lastmod>2015-07-04T14:59:26.949Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/filter-ip-in-a-ip-range/</loc>
+    <lastmod>2015-07-04T14:59:26.948Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/css%20@media%20query/</loc>
+    <lastmod>2015-07-04T14:59:26.947Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/</loc>
+    <lastmod>2015-07-04T14:59:26.946Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/</loc>
+    <lastmod>2015-07-04T14:59:26.945Z</lastmod>
   </url>
   
 </urlset>
