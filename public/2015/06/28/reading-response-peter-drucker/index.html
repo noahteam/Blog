@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Connection Timeout Issue for MSSQL - Noah Team&#39;s Blog</title>
+    <title>課後心得，學通彼得.杜拉克-成功管理者要先問【必要貢獻價值】 - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -14,6 +14,17 @@
     <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
     <!--STYLES END-->
     
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
 </head>
 
     <body>
@@ -123,28 +134,37 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
+        <h1 class="post-title" itemprop="headline">課後心得，學通彼得.杜拉克-成功管理者要先問【必要貢獻價值】</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Mon Jun 29 2015 22:56:31 GMT+0800">
-        Jun 29, 2015
+    <time  itemprop="datePublished" content="Sun Jun 28 2015 22:08:51 GMT+0800">
+        Jun 28, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
-<h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
-<p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
-<p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
-<p>In the meantime, we request to use the following workarounds:</p>
-<ol>
-<li>Increase the connection string timeout to 150 sec. This will give the first attempt enough time to connect( 150* .08=12 sec)</li>
-<li>Add MinPool Size=20 in the connection string. This will always maintain a minimum of 20 connections in the pool and there will be less chances of creating new connection, thus reducing the chance of this error.</li>
-<li>Improve the network performance. Update your NIC drivers to the latest firmware version. We have seen network latency when your NIC card is not compatible with certain Scalable Networking Pack settings. If you are on Windows Vista SP1 or above you may also consider disabling Receive Window Auto-Tuning. If you have NIC teaming enabled, disabling it would be a good option.</li>
-</ol>
-
+        <h2 id="About">About</h2><p>在一次偶然的機會，讓我能夠有幸參加陳宗賢教授的管理課程-「學通彼得.杜拉克-成功管理者要先問【必要貢獻價值】」。得到了許多重要的觀念與做法，想在這裡分享一下。</p>
+<h2 id="Why_do_we_need_to_learn_management_?">Why do we need to learn management ?</h2><p>有些人在工作上表現非常突出，但一升上管理職，就完全不懂該怎麼做？<br>在管理學上，有個名為「彼得」的原理，就是在說這個現象。<br><a href="https://zh.wikipedia.org/wiki/%E5%BD%BC%E5%BE%97%E5%8E%9F%E7%90%86" target="_blank" rel="external">https://zh.wikipedia.org/wiki/%E5%BD%BC%E5%BE%97%E5%8E%9F%E7%90%86</a></p>
+<p>其實就是「揠苗助長」，這也是我想為什麼去上這門課的原因吧。<br>一方面是培訓，另一方面也能讓員工跟管理者有相互的了解。</p>
+<h2 id="How_to_Be_a_Good_Manager_?">How to Be a Good Manager ?</h2><ul>
+<li><p><strong>犧牲奉獻</strong><br>時間，原來之前有一個功課，是要提早30分鐘到公司。這個用意，我想有二個主要的原因，首先，必須成為部屬的表率，其次，是投入更多的時間在工作上，無論是工作前的準備或工作相關的學習。所以，時間的犧牲是必不可少。</p>
+<p>金錢，當成為一個管理者時，跟員工的互動不應僅只於工作上，也應在生活上互相了解，說得白一點，應該就是交際，我的理解是「搏感情」，如果能讓整個團隊一條心，那再困難的任務，也不會是個問題了。</p>
+</li>
+<li><p><strong>培育的精神</strong><br>在職場上，有些人往往為了維持自己的獨特與不可取代，而選擇將一些做事的方法與技巧隱藏起來，如果是一位獨立工作者，那你可以保留自己的技術，但如果是在一個團隊內工作，這個心態將會讓自己變得封閉，久而久之將變得孤立無援，團隊也因此分崩離析、無法同心。</p>
+<p>當一個好的管理者，應該要了解培育的重要，如果團隊內個個都是高手，那所創造出來的能量，則不言而喻。</p>
+<p>學無止境，是培育帶出的另一個精神。知識是永遠學不完的，永遠有新的技術、新的觀念、新的做事方法，培養持續學習的心態，才能讓自己在這競爭激烈的環境下，站穩腳跟。</p>
+<p>若能持續地學習與培育，團隊中的每個人會散發出一種特別的氣味、磁性，將能吸引更多相同氣味、磁場的人加入，進而產生一個正向且持續成長能量。</p>
+</li>
+<li><p><strong>沒有抱怨的權力</strong></p>
+<p>不批評、不責備、不抱怨！        我相信幾乎所有人，都曾經抱怨過工作上的種種，但是，要想成為一個成功的管理者，你就不能抱怨，一點抱怨的想法都不能有。而是要去思考問題、解決問題，這是一個轉念的過程，讓那些沒用的能量，轉變為成長進步的動力。<br>我相信抱怨會製造一種氛圍，讓人害怕、讓人逃避，如果持續的抱怨，只會漸漸地讓人遠離。</p>
+<p>在這裡，其實讓我想到了另一個問題，如果管理者面對部屬的抱怨，讓怎麼做呢？<br>當發現部屬的抱怨，就表示有團隊中有問題正在發生，這問題必定影響團隊工作進而影響與團隊相關的所有事情，應要立即思考問題該如何解決，把問題解決。</p>
+<p>解決問題，團隊將會因此而進步、成長。<br>忽視問題，團隊將持續受到問題的困擾，直至病入膏肓。</p>
+<p>最後，很重要的一點，就是要實踐、實踐、實踐。(Practice, Practice, Practice)</p>
+</li>
+</ul>
+<h2 id="To_Be_Continue…">To Be Continue…</h2>
         
             
         
@@ -154,7 +174,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/mssql/">mssql</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Management/">Management</a>
 
             </div>
         
@@ -163,7 +183,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/"  data-tooltip="How to filter a IP from a IP range">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -171,7 +191,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/" data-tooltip="Continuos Improvement and Respect for People">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/24/user-story-mapping/" data-tooltip="User Story Mapping">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -181,17 +201,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -230,7 +250,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/filter-ip-in-a-ip-range/"  data-tooltip="How to filter a IP from a IP range">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -238,7 +258,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/" data-tooltip="Continuos Improvement and Respect for People">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/24/user-story-mapping/" data-tooltip="User Story Mapping">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -248,17 +268,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/28/reading-response-peter-drucker/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>

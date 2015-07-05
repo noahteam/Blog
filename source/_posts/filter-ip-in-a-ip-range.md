@@ -3,7 +3,6 @@ author: Toh Leng Wee
 date: 2015-06-29 14:25:47
 tags: tsql
 ---
-
 ## About
 In this post, we will show you how to filter a IP from a IP range in tsql.
 
