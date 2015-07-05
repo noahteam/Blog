@@ -1,7 +1,7 @@
 title: User Story Mapping
 subtitle: By Janet Teo
 date: 2015-06-24 00:39:15
-tags: Agile, User Story Mappaing
+tags: [Agile, User Story Mapping]
 ---
 
 ##About
