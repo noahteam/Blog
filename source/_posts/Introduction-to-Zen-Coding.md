@@ -1,7 +1,7 @@
 title: Introduction to Zen Coding
 author: Zhang Guoqiang
 date: 2015-07-06 22:27:22
-tags: html
+tags: html,css
 ---
 
 ##About

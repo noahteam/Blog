@@ -1,12 +1,7 @@
 title: User Story Mapping
 subtitle: By Janet Teo
 date: 2015-06-24 00:39:15
-<<<<<<< HEAD
 tags: Agile, User Story Mapping
-=======
-tags: [Agile, User Story Mapping]
->>>>>>> 746c2338445ad42bee161cb20aabc964de84fd35
----
 
 ##About
 Introduction of User Story and User Story Mapping
