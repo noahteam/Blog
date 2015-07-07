@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Connection Timeout Issue for MSSQL - Noah Team&#39;s Blog</title>
+    <title>Reading Response - 深度匯談 (Dialogue) from 第五項修煉 (The Fifth Discipline) - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -134,27 +134,26 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
+        <h1 class="post-title" itemprop="headline">Reading Response - 深度匯談 (Dialogue) from 第五項修煉 (The Fifth Discipline)</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Wed Jul 01 2015 11:21:29 GMT+0800">
-        Jul 01, 2015
+    <time  itemprop="datePublished" content="Tue Jul 07 2015 21:05:48 GMT+0800">
+        Jul 07, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
-<h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
-<p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
-<p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
-<p>In the meantime, we request to use the following workarounds:</p>
-<ol>
-<li>Increase the connection string timeout to 150 sec. This will give the first attempt enough time to connect( 150* .08=12 sec)</li>
-<li>Add MinPool Size=20 in the connection string. This will always maintain a minimum of 20 connections in the pool and there will be less chances of creating new connection, thus reducing the chance of this error.</li>
-<li>Improve the network performance. Update your NIC drivers to the latest firmware version. We have seen network latency when your NIC card is not compatible with certain Scalable Networking Pack settings. If you are on Windows Vista SP1 or above you may also consider disabling Receive Window Auto-Tuning. If you have NIC teaming enabled, disabling it would be a good option.</li>
-</ol>
+        <h2 id="About">About</h2><p>《第五項修煉》by Peter M. Senge，這是一本關於學習型組織的書，其內容主要說明學習型組織的藝術與價值，以及如何實踐的技巧。<br>而最近看了其中一項修煉「團隊學習」的一小部份，叫做「深度匯談」。</p>
+<h2 id="團隊學習？">團隊學習？</h2><p>「為何每個成員智商皆高於120，何以集體的智商只有63？」這是書上的一段話，在聽完這句話後，心裡有了一些感觸…<br>舉個實際的例子，在NBA，常常有球隊花大把大把的銀子，簽下了很多明星球員，組成黃金陣容，以為球隊因此而大大提高了戰力，但最後往往令人大失所望。<br>一個球隊，如果球員不懂得如何溝通協調，思考找出合作的方法與默契，是沒有辦法打出好成績的！</p>
+<h2 id="討論？深度匯談？">討論？深度匯談？</h2><p>在球場上如此，在工作中亦然，如何在團隊中有效的溝通、建立默契？我想討論應該是一個很重要的過程。</p>
+<p>對於討論，書上有一個很有趣也發人省思的說明：<br>「討論」(discusion)與「碰擊」(percussion)和「震盪」(concussion)有相同的字根，其義近似於一種來回交手，欲求勝利的比賽。</p>
+<p>曾幾何時，覺得討論結果合於己意，而感到開心雀躍，而又曾幾何時，因結果不如預期，而感到失望。這個比喻或許不甚貼切，但主要是想要表達那種交手的感覺，而這其實是一種「習慣性防衛」的感覺，為了免受威脅與窘困的習慣性的互動方式。</p>
+<p>若我們能夠了解在討論時的防衛，並不時提醒自己，便可以更客觀的角度來討論問題，而這便是書上所說的「深度匯談」(dialogue)，以下是書中的說法：</p>
+<p>「深度匯談」源自希臘的「dialogos」，「dia」意指「透過」，「logos」意指「文字」或「意義」。意指：「在人們之間自由流動的意義。」<br>在深度匯談時，大家以多樣的觀點探討複雜的難題，每個人攤出心中的假設，並自由交換他們的想法。在一種無拘無束的探索中，將深藏的經驗與想法完全浮現，而超過各自的想法。</p>
+<h2 id="反思">反思</h2><p>希望能時時提醒自己，了解與避免習慣性的防衛。</p>
+<p>而，對於「客觀」也有一個感想：在「討論」的過程中，「客觀」其實是非常重要的「規則」，但是往往在「討論」的過程漸漸深入，「主觀」就會在不知不覺間進入。由於參與「討論」的都是關係人，除非有非常高超的智慧來辨識「主觀」，否則很容易因此而產生阻力。但此時，如果有一個中立的第三者，來觀看整個「討論」的過程，他往往能夠很容易的找出盲點，若能適時的點破，則「討論」的阻力就能消失，甚至因找出阻力的癥結，而轉化為助力。<br>這不就是一個團隊中，Scrum Master存在的珍貴之處嗎？</p>
 
         
             
@@ -165,7 +164,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/mssql/">mssql</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Scrum-Master/">Scrum Master</a> <a class="tag tag--primary tag--small t-link" href="/tags/team/">team</a>
 
             </div>
         
@@ -174,7 +173,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/"  data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -182,7 +181,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/" data-tooltip="Continuos Improvement and Respect for People">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/some-guideline-on-writing-better-query/" data-tooltip="Some guidelines on writing a better SQL query">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -192,17 +191,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -241,7 +240,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/"  data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -249,7 +248,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/Continuos-Improvement-and-Respect-for-People/" data-tooltip="Continuos Improvement and Respect for People">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/some-guideline-on-writing-better-query/" data-tooltip="Some guidelines on writing a better SQL query">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -259,17 +258,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/01/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/reading-response-dialogue/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>

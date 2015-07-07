@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Continuos Improvement and Respect for People - Noah Team&#39;s Blog</title>
+    <title>Connection Timeout Issue for MSSQL - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -134,20 +134,27 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Continuos Improvement and Respect for People</h1>
+        <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Mon Jun 29 2015 22:27:10 GMT+0800">
-        Jun 29, 2015
+    <time  itemprop="datePublished" content="Sun Jul 05 2015 14:27:02 GMT+0800">
+        Jul 05, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <p>TOYOTA Senior Advisor Katsuaki Watanabe:<br>The Toyota Way has two main pillars:continuos improvement and respect for people.<br>Respect is necessary to work with people. By “People” we mean employees, supply partners, and customers.<br>… We don’t mean just the end customer; on the assembly line the person at the next workstation is also your<br>customer. That leads to teamwork.  If you adopt that principle, you’ll also keep analyzing what you do<br>in order to see if you’re doing things perfectly, so you’re not troubling your customer.<br>That nutures your ability to idnetify problems, and if you closely observe things, it will lead to<br>kaizen-continuos improvement. The root of the Toyota Way is to be dissatisfied with the status quo; you have<br>to ask constantly, “Why are we doing this?”</p>
-<p>It reminds me of sprint retrospective in scrum. During retrospective, we stop and review what can be done better to deliver the value of the story. </p>
-<p><agile retrospectives:="" making="" good="" teams="" great=""> indicates gathering data, generating insight, and deciding what to do for improvement unfolds retrospective.<br>It’s the kaizen-continuos improvement lead by close observation during the sprint. Team also thanks each other in retrospective for the assistence received, which is the action of respect for people.<br>We appreaciate everyone’s effort to deliver story value through teamwork.      </agile></p>
+        <h2 id="About">About</h2><p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
+<h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
+<p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
+<p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
+<p>In the meantime, we request to use the following workarounds:</p>
+<ol>
+<li>Increase the connection string timeout to 150 sec. This will give the first attempt enough time to connect( 150* .08=12 sec)</li>
+<li>Add MinPool Size=20 in the connection string. This will always maintain a minimum of 20 connections in the pool and there will be less chances of creating new connection, thus reducing the chance of this error.</li>
+<li>Improve the network performance. Update your NIC drivers to the latest firmware version. We have seen network latency when your NIC card is not compatible with certain Scalable Networking Pack settings. If you are on Windows Vista SP1 or above you may also consider disabling Receive Window Auto-Tuning. If you have NIC teaming enabled, disabling it would be a good option.</li>
+</ol>
 
         
             
@@ -158,7 +165,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/agile/">agile</a> <a class="tag tag--primary tag--small t-link" href="/tags/lean/">lean</a> <a class="tag tag--primary tag--small t-link" href="/tags/scrum/">scrum</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/mssql/">mssql</a>
 
             </div>
         
@@ -167,7 +174,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/"  data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/05/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -175,7 +182,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/" data-tooltip="Use TestData Repository to simplify your Integration Test">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -185,17 +192,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -234,7 +241,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/"  data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/05/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -242,7 +249,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/" data-tooltip="Use TestData Repository to simplify your Integration Test">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -252,17 +259,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/05/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
