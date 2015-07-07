@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>Some guidelines on writing a better SQL query - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Some guidelines on writing a better SQL query</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Tue Jul 07 2015 00:37:17 GMT+0800">
+        Jul 07, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <h2 id="About">About</h2><p>There are many ways on writing a SQL query. However, there are some guidelines that could help us to improve our query performance. Efficient query is important especially when we use store procudure in our system. In this post, we will show you some of the guidelines.</p>
+<h2 id="Limit_selected_list">Limit selected list</h2><p>We shall always specify the columns we need in <strong>SELECT</strong>. Avoid to use <strong> * </strong> in our select list to return some unused columns in our system.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Bad example</span></span><br><span class="line"><span class="operator"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> [Customer] </span><br><span class="line"><span class="keyword">WHERE</span> [CustomerId] = @CustomerId </span><br><span class="line"></span><br><span class="line"><span class="comment">--Better example</span></span><br><span class="line"><span class="keyword">SELECT</span> [FirstName], [LastName], [DateOfBirth]</span><br><span class="line"><span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line"><span class="keyword">WHERE</span> [CustomerId] = @CustomerId</span></span><br></pre></td></tr></table></figure>
+<h2 id="Use_Search_Argument_(SARG)">Use Search Argument (SARG)</h2><p>Always try to change Non-Search Argument to <a href="http://www.sqlconsulting.com/news1109.htm" target="_blank" rel="external">Search Argument</a> for Index Column in <strong>WHERE</strong> clause.</p>
+<p><strong>Search Arguement</strong>:<br>-operators include <strong>=</strong>, <strong>&gt;</strong>, <strong>&lt;</strong>, <strong>&gt;=</strong>, <strong>&lt;=</strong>, <strong>IN</strong>, <strong>BETWEEN</strong><br>-Like ‘literal%’’</p>
+<p><strong>Non-Search Argument</strong>:<br>-Exclusion conditions E.g  <strong>&lt;&gt;</strong>, <strong>!=</strong>, <strong>!&gt;</strong>, <strong>NOT EXISTS</strong><br>-Like ‘%literal’<br>-Arithmetic operations, E.g  orderid*2 = 3400<br>-Function, E.g subsring(username,1,1) = ‘x’</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Bad example</span></span><br><span class="line"><span class="operator"><span class="keyword">SELECT</span> [FirstName], [LastName], [DateOfBirth]</span><br><span class="line"><span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">CASE</span> @DateFilter</span><br><span class="line">      <span class="keyword">WHEN</span> <span class="string">'Year'</span> <span class="keyword">THEN</span> [<span class="keyword">Year</span>]</span><br><span class="line">      <span class="keyword">WHEN</span> <span class="string">'Month'</span> <span class="keyword">THEN</span> [<span class="keyword">Month</span>]</span><br><span class="line">      <span class="keyword">ELSE</span> [<span class="keyword">Day</span>] <span class="keyword">END</span> = @<span class="built_in">Date</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--Better example</span></span><br><span class="line"><span class="keyword">IF</span> @DateFilter = <span class="string">'Year'</span></span><br><span class="line">    <span class="keyword">SELECT</span> [FirstName], [LastName], [DateOfBirth]</span><br><span class="line">    <span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line">    <span class="keyword">WHERE</span> [<span class="keyword">Year</span>] = @<span class="built_in">Date</span></span><br><span class="line"><span class="keyword">ELSE</span> <span class="keyword">IF</span> @DateFilter = <span class="string">'Month'</span></span><br><span class="line">    <span class="keyword">SELECT</span> [FirstName], [LastName], [DateOfBirth]</span><br><span class="line">    <span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line">    <span class="keyword">WHERE</span> [<span class="keyword">Month</span>] = @<span class="built_in">Date</span></span><br><span class="line"><span class="keyword">ELSE</span></span><br><span class="line">    <span class="keyword">SELECT</span> [FirstName], [LastName], [DateOfBirth]</span><br><span class="line">    <span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line">    <span class="keyword">WHERE</span> [<span class="keyword">Day</span>] = @<span class="built_in">Date</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="Avoid_unnecessary_data_conversion">Avoid unnecessary data conversion</h2><p>-Define store procedure parameters data type to be the same as table schema data type.<br>-Don’t join tables with different data type</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Bad example</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[GetLoginName]</span><br><span class="line">    @CustomerId <span class="built_in">varchar</span>(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">    <span class="keyword">SELECT</span> [LoginName]</span><br><span class="line">    <span class="keyword">FROM</span> [Customer]</span><br><span class="line">    <span class="keyword">WHERE</span> [CustomerId] = @CustomerId <span class="comment">--[CustomerId] is int in table schema</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--Better example</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[GetLoginName]</span><br><span class="line">    @CustomerId <span class="built_in">int</span></span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">    <span class="keyword">SELECT</span> [LoginName]</span><br><span class="line">    <span class="keyword">FROM</span> [Customer]</span><br><span class="line">    <span class="keyword">WHERE</span> [CustomerId] = @CustomerId <span class="comment">--[CustomerId] is int in table schema</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="Use_EXISTS_over_COUNT(1)_if_you_want_to_verify_data_existence">Use EXISTS over COUNT(1) if you want to verify data existence</h2><p>Sometimes when we want to verify data existence, we will use COUNT(1) to achieve it. But COUNT(1) will actuall scan the who table even the record was found. So EXISTS would be a better way in this case.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Bad example</span></span><br><span class="line"><span class="operator"><span class="keyword">DECLARE</span> @isExists <span class="keyword">as</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">SELECT</span> @isExists = <span class="keyword">COUNT</span>(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">FROM</span> [dbo].[Customer]</span><br><span class="line"><span class="keyword">WHERE</span> CustomerId = <span class="number">123</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--Better example</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span>(<span class="keyword">SELECT</span> TOP <span class="number">1</span> <span class="number">1</span> <span class="keyword">FROM</span> [dbo].[Customer] <span class="keyword">WHERE</span> CustomerId = <span class="number">123</span>)</span></span><br></pre></td></tr></table></figure>
+<h2 id="Use_UNION_ALL_over_UNION">Use UNION ALL over UNION</h2><p>UNION removes duplicate records (where all columns in the results are the same)and UNION ALL does not.<br>There is a performance hit when using UNION vs UNION ALL, since the database server need to do additional work to remove the duplicate rows, but usually you do not want the duplicates (especially when developing reports). Therefore, you have to deal with the duplicated data in your application.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Bad example</span></span><br><span class="line"><span class="operator"><span class="keyword">SELECT</span> [CustomerId] <span class="keyword">FROM</span> [Customer]</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> [CustomerId] <span class="keyword">FROM</span> [DeleteCustomer]</span><br><span class="line"></span><br><span class="line"><span class="comment">--Better example</span></span><br><span class="line"><span class="keyword">SELECT</span> [CustomerId] <span class="keyword">FROM</span> [Customer]</span><br><span class="line"><span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line"><span class="keyword">SELECT</span> [CustomerId] <span class="keyword">FROM</span> [DeleteCustomer]</span></span><br></pre></td></tr></table></figure>
+<h2 id="Summary">Summary</h2><p>We could always try to refine our query to do less work but still achieve the same outcome.<br>Always try to use index in your WHERE clause, you could use <strong>sp_helpindex</strong> to know the table indexes.<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_helpindex '[TableName]'</span><br></pre></td></tr></table></figure></p>
+<p>Keep data table size as small as possible, purge history records or unused records.</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/query/">query</a> <a class="tag tag--primary tag--small t-link" href="/tags/sql/">sql</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/javascript-unit-test-with-jasmine-karma/" data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/javascript-unit-test-with-jasmine-karma/" data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>
