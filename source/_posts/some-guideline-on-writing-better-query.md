@@ -110,6 +110,12 @@ UNION ALL
 SELECT [CustomerId] FROM [DeleteCustomer]
 ```
 
+## Use sp_executesql over exec on dynamic query
+SQL Server will cache a query plan when the first time of a query run, and the cache could be reuse in order to save the time on *compiling* the query again.
+However, the cache is a space- and case-sensitive. Therefore, dynamic query is not able to be cached by using **exec**.
+**sp_executesql** is a SQL Server built-in stored procedure that takes two pre-defined parameters and any number of user-defined parameters. If you run your dynamic query with parameters, since the parameter values are not part of the query text, the same query plan could be reused even when the input changes.
+If you want to know more about the difference between **sp_executesql** and **exec**, please refer to [The Curse and Blessings of Dynamic SQL](http://www.sommarskog.se/dynamic_sql.html)
+
 ## Summary
 We could always try to refine our query to do less work but still achieve the same outcome.
 Always try to use index in your WHERE clause, you could use **sp_helpindex** to know the table indexes.
