@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>JMeter from Scratch - Step by Step Tutorial - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">JMeter from Scratch - Step by Step Tutorial</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Fri Jul 10 2015 05:47:32 GMT+0800">
+        Jul 10, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <p><a href="http://jmeter.apache.org/" target="_blank" rel="external">Apache JMeter</a> is a very famours open source software to perform load testing for web application. This post is to demo how to build a Jmeter load testing for a website from scratch.</p>
+<h1 id="Table_of_Contents">Table of Contents</h1><ol>
+<li><a href="#1-_Preparation">Preparation</a><br>1.1. <a href="#1-1-_System_to_be_tested">System to be tested</a><br>1.2. <a href="#1-2-_Loading_testing_design">Loading testing design</a><br>1.3. <a href="#1-3-_Install_JMeter">Install JMeter</a></li>
+<li><a href="#2-_Login_with_one_user">Login with one user</a><br>2.1. <a href="#2-1-_Create_Test_Plan">Create Test Plan</a><br>2.2. <a href="#2-2-_Create_Thread_Group">Create Thread Group</a><br>2.3. <a href="#2-3-_Login">Login</a><br>2.4. <a href="#2-4-_Add_Results_Tree">Add Results Tree</a><br>2.5. <a href="#2-5-_Cookie_Manager">Cookie Manager</a></li>
+<li><a href="#3-_Login_With_100_Users">Login With 100 Users</a><br>3.1. <a href="#3-1-_Define_Variables">Define Variables</a><br>3.2. <a href="#3-2-_CSV_Data_Set_Config">CSV Data Set Config</a><br>3.3. <a href="#3-3-_Change_to_100_Threads">Change to 100 Threads</a><br>3.4. <a href="#3-4-_More_Listeners">More Listeners</a></li>
+<li><a href="#4-_Update_Book">Update Book</a><br>4.1. <a href="#4-1-_Create_HTTP_Request_to_Update_Book">Create HTTP Request to Update Book</a><br>4.2. <a href="#4-2-_Response_Assertion">Response Assertion</a><br>4.3. <a href="#4-3-_Extract_Data_From_Response">Extract Data From Response</a></li>
+<li><a href="#5-_Logout">Logout</a></li>
+<li><a href="#6-_Conclusion">Conclusion</a></li>
+</ol>
+<h1 id="1-_Preparation">1. Preparation</h1><h2 id="1-1-_System_to_be_tested">1.1. System to be tested</h2><p>We have a simple system for this tutorial, referring to the following flow:<br><img src="http://drive.google.com/uc?export=view&amp;id=1jzHj4Ah4PzspppW2EbdLOvDDUgebP6CC9g" alt="System Overview" title="system overview"></p>
+<p>User is required to login first. After succesfully login, a list of books will be shown. User is able to choose any of the book to update it.</p>
+<h2 id="1-2-_Loading_testing_design">1.2. Loading testing design</h2><p>To do testing with this simple system, we are going to follow the flow:</p>
+<ol>
+<li>Login</li>
+<li>Update the book</li>
+<li>Logout</li>
+</ol>
+<p>And to add on loading, we are going to create 100 users to do above steps simultaneously.</p>
+<h2 id="1-3-_Install_JMeter">1.3. Install JMeter</h2><p>We need to have Java runtime environment in order to run JMeter. JMeter is downloaded from <a href="http://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="external">Download Link</a>. When this tutorial is written, the latest version is 2.13. And the tutorial is using windows system. There is no much difference from operation system used.</p>
+<p>After downloaded JMeter, there is a jmeter.bat file after un-archive. Double click jmeter.bat, the JMeter will be opened<br><img src="http://drive.google.com/uc?export=view&amp;id=1Jm3y4dQl6rPp2GUn94h-Nj-0Fu5oKPxWzQ" alt="JMeter-empty" title="jmeter empty"></p>
+<h1 id="2-_Login_with_one_user">2. Login with one user</h1><h2 id="2-1-_Create_Test_Plan">2.1. Create Test Plan</h2><p>Once open JMeter, we could edit the name of test plan.<br><img src="http://drive.google.com/uc?export=view&amp;id=1zKqcq7xTqZy1AHt4Vg3m92UvSh_Kg5tuxQ" alt="edit test plan name" title="edit test plan name"><br>After edit the name, do not forget to save it. By default, the test plan is saved as .jmx file and you could load this .jmx file next time if you want to re-execute the testing.<br><img src="http://drive.google.com/uc?export=view&amp;id=1wAuOH-CphMYnQCGCm9yEe5X2SViW1fi_bg" alt="save test plan" title="save test plan"></p>
+<h2 id="2-2-_Create_Thread_Group">2.2. Create Thread Group</h2><p>Normally we need at least one thread group to perform load testing. To create the thread group, right click on the test plan name in right menu, then from popup menu, choose <code>Add</code>-&gt;<code>Threads (Users)</code>-&gt;<code>Thread Group</code><br><img src="http://drive.google.com/uc?export=view&amp;id=1-0pyui9nvP2loCOYur5-SLrQPjmaItArEg" alt="Create thread group" title="create thread group"><br>You can rename the thread group name as your favor<br><img src="http://drive.google.com/uc?export=view&amp;id=18XdGjgH4CetAIohwIgM8isjgXuuO4HYMSg" alt="Edit thread group name" title="edit thread group name"></p>
+<p>There are few settings on the thread group, we leave it right now and look back later.</p>
+<h2 id="2-3-_Login">2.3. Login</h2><p>Now let’s proceed to our first HTTP request to login to the system. </p>
+<p>To create a HTTP request, right click on the thread group, from the popup menu, choose <code>Add</code>-&gt;<code>Sampler</code>-&gt;<code>HTTP Request</code><br><img src="http://drive.google.com/uc?export=view&amp;id=125S7Xybb8SkQkqsP5jh1VzwiRw_7dcgViA" alt="Add Login HTTP Request" title="Add Login HTTP Request"></p>
+<p>We need to edit settings of this login request. In order to know the settings, normally we need to use tool to help us to identity with a trial on the system. If you are using Chrome, you could press F12 to open developer tools. Lastest version of Firefox and IE are have similar feature. We need to utilize this tool to capture the post paramters for login process. To do this, let’s open our testing site.<br><img src="http://drive.google.com/uc?export=view&amp;id=1kyHMrGHAMYo8R0qEMLTQF8Zwwy3fMJkkug" alt="login page" title="login page"><br>Fill in username and password, click [<em>Login</em>]. You should able to see following information in F12.</p>
+<ul>
+<li>Request URL</li>
+<li>Form Data</li>
+</ul>
+<p><img src="http://drive.google.com/uc?export=view&amp;id=1rNLpfLzFocr302N-aZC4L5i0mJqC7jMG1A" alt="login request capture" title="login request capture"></p>
+<p>After collecting the information by manully trial, we could edit the settings of Login HTTP request.</p>
+<ul>
+<li><em>Name</em>: change it “Login”.</li>
+<li><em>Server Name or IP</em> : this is the domain of [<em>Request URL</em>] captured. </li>
+<li><em>Port Number</em>: if leave empty, default to 80.</li>
+<li><em>Implementation</em>: you could choose one version of HttpClient.</li>
+<li><em>Protocal</em>: in this tutorial, it is HTTP. Therefore, you could leave it empty.</li>
+<li><em>Method</em>: in this case, it is POST</li>
+<li><em>Path</em>: this is the path part of [<em>Request URL</em>] captured</li>
+<li><em>Parameters</em>: you could fined them in form data captured. By clicking [<em>Add</em>] button to add in paratmers in form post. In this example, we need two paramters<ul>
+<li>Username : user1</li>
+<li>Password : password1</li>
+</ul>
+</li>
+</ul>
+<p>We could leave other settings as default so far. The final settings should be as following<br><img src="http://drive.google.com/uc?export=view&amp;id=1IY73YtWyzfO4g8weejyYkoed-WqKKNMryw" alt="Login HTTP Request Setting" title="Login HTTP Request Setting"></p>
+<p>Right now we already have a Http request setup. We could press [<em>Crtl+R</em>] or click [<em>Start</em>] Button on top menu to run our test.<br><img src="http://drive.google.com/uc?export=view&amp;id=1udJs_pi9j9f-2S4DA3BsqGVB0bPveeaFlA" alt="Start Button" title="Start Button"></p>
+<p>Actually we can not see anything from running our test. In order to view some output, let’s proced to next step.</p>
+<h2 id="2-4-_Add_Results_Tree">2.4. Add Results Tree</h2><p>In order for us to see the output of the excution of the test, we could add a listener to thread group. To do this, right click on thread group, from the popup menu, choose <code>Add</code>-&gt;<code>Listener</code>-&gt;<code>View Results Tree</code><br><img src="http://drive.google.com/uc?export=view&amp;id=1rVVM2-d8Da8rSRf0zhF5pGMj05mquIb4Dw" alt="add results tree" title="add results tree"></p>
+<p>Let’s run the test again by pressing [<em>Crtl+R</em>]. Once done, clicking on [View Results Tree] in left menu, we could see there are outputs show in right panel. You may able to expand the request if there are redirects happended. In our case, once successfully login, it is supposed to go to [<em>Book List Page</em>]. However, from the screenshot below, we are seeing that it redicted to [<em>Book List Page</em>], and then redirected again to error page with message “<em>Invalid Session</em>“.<br><img src="http://drive.google.com/uc?export=view&amp;id=1qt1gajb03DZXxW153Zu0EjiKg-tiy-EkpQ" alt="View Results Tree 1" title="View Results Tree 1"></p>
+<p>This is due to our test does not maintain the session information. Therefore, after successfully login, it fails on session checking when redirect to [<em>Book List Page</em>]. So it redicts to [<em>Error Page</em>]. We are going to resolve it in next step.</p>
+<h2 id="2-5-_Cookie_Manager">2.5. Cookie Manager</h2><p>Most of website keeps session Id in cookie. Therefore, to keep our session valid, we just need to maintain cookie. JMemter provides [<em>HTTP Cookie Manager</em>] for this purpose. Right click thread group, in the popup menu, choose <code>Add</code>-&gt;<code>Config Element</code>-&gt;<code>HTTP Cookie Manager</code><br><img src="http://drive.google.com/uc?export=view&amp;id=1vTJLqHHm77WqCY2O-DpRf5KzIb7izsMRKQ" alt="Cookie Manager" title="Cookie Manager"></p>
+<p>We could drag and drop the [<em>HTTP Cookie Manager</em>] on top of [<em>Login</em>] Http request. It is my favor style but not neccessary. Now we are going to run the test again. And we will not be redirected to [<em>Error Page</em>] any more.<br><img src="http://drive.google.com/uc?export=view&amp;id=1ObavXN354y59_Ny8CKYKKiadNbICm60WpQ" alt="View Results Tree 2" title="View Results Tree 2"></p>
+<h1 id="3-_Login_With_100_Users">3. Login With 100 Users</h1><p>In above section, we have created a test plan for 1 user. However, load testing requires <strong>LOAD</strong> to the system. Therefore, we are creating load in this section.</p>
+<h2 id="3-1-_Define_Variables">3.1. Define Variables</h2><p>First of all, in order to create 100 users, we have to change the <em>username</em> and <em>password</em> for login request from hardcode value to dynamic variables. In JMeter, the variable is referred by format <code>${variable_name}</code></p>
+<p>To define variables, we could right click on thread group, choose <code>Add</code>-&gt;<code>Config Element</code>-&gt;<code>User Defined Variables</code> in popup menu. Drag and drop it on top of [<em>Cookie Manager</em>].<br><img src="http://drive.google.com/uc?export=view&amp;id=1pWHYXXQKTVtA-zk-vVvXn4VBG46PAHqOEQ" alt="Add User Defined Variables" title="Add User Defined Variables"></p>
+<p>In right panel of [<em>User Defined Variables</em>], click [<em>Add</em>] button in bottom. Set as following</p>
+<ul>
+<li>Name : Server Name</li>
+<li>Value : blog.localdev.net</li>
+</ul>
+<p><img src="http://drive.google.com/uc?export=view&amp;id=15RPosRRVFYaVMxd59ChPOedCFCNWMUCiFA" alt="User Defined Variables Setting" title="User Defined Variables Setting"></p>
+<p>To use the variable we just set, click on [<em>Login</em>] in left menu. Change [<em>Server Name or IP</em>] to <code>${Server Name}</code>. Then press [<em>Ctrl+R</em>], we would see it is successfully run in [<em>View Results Tree</em>]<br><img src="http://drive.google.com/uc?export=view&amp;id=12KNz0VMWuN2OgBxy9KG1YgYv5GoaOJSAjw" alt="Login with variable" title="Login with variable"></p>
+<p>We could utilize this feature to make our test plan more reusable. However, to create 100 users, it is better to user another way to do it.</p>
+<h2 id="3-2-_CSV_Data_Set_Config">3.2. CSV Data Set Config</h2><p>We could create a separated <code>d:\accounts.csv</code> file to store all the accounts used for load testing.<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">user1,password1</span><br><span class="line">user2,password2</span><br><span class="line">user3,password3</span><br><span class="line">user4,password4</span><br><span class="line">user5,password5</span><br><span class="line">user6,password6</span><br><span class="line">user7,password7</span><br><span class="line">user8,password8</span><br><span class="line">user9,password9</span><br><span class="line">user10,password10</span><br><span class="line">user11,password11</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>In order to load this .csv file into JMeter test plan, right click on thread group, choose <code>Add</code>-&gt;<code>Config Element</code>-&gt;<code>CSV Data Set Config</code> from popup menu.<br><img src="http://drive.google.com/uc?export=view&amp;id=1zl82kxtfjGiUbmGDNy2ihRPsv8fmvRrcOg" alt="add csv data set config"></p>
+<p>We need to edit settings:</p>
+<ul>
+<li>Name: <code>User Accounts</code></li>
+<li>Filename: absolute/relative path to the .csv file</li>
+<li>Variable Names(comma-delimited): <code>Username,Password</code></li>
+</ul>
+<p>Leave other as default. The final setting will be as following:<br><img src="http://drive.google.com/uc?export=view&amp;id=13TPcqrYIJQ-MQJNeB19FQH-wdykpm-P3nQ" alt="settings of csv data set config"></p>
+<p>After setup [<em>csv data set config</em>], we already have <em>Username</em> and <em>Password</em> loaded from .csv file. To use these variables in our test plan, click on [<em>Login</em>] in left menu, change the value of <em>Username</em> to <code>${Username}</code>, and value of <em>Password</em> to <code>${Password}</code><br><img src="http://drive.google.com/uc?export=view&amp;id=1k9uf02PhZpHNl6mpgL_zG7eW8M0Rp0jLTg" alt="Login Setting"></p>
+<p>Now we could press [<em>Ctrl+R</em>] to run our test again. In [<em>View Results Tree</em>], we could see there is 1 request send to login page succesfully with the 1st credential in accounts.csv file.<br><img src="http://drive.google.com/uc?export=view&amp;id=1ynq81KfhEQszMRNZfArVsrYkCPNf4EwcRQ" alt="Results"></p>
+<h2 id="3-3-_Change_to_100_Threads">3.3. Change to 100 Threads</h2><p>Click on thread group, change [<em>Number of Threads (users)</em>] from 1 to 100.<br><img src="http://drive.google.com/uc?export=view&amp;id=13L-R3khC68TPvbPe_6Cj4hovT9RZU_YGiA" alt="100 Threads"></p>
+<p>Let’s run the test again. Click on [<em>View Results Tree</em>] we could see 100 requests are sent to login. We could exam the last request. The parameter sent should be <code>username100</code> and <code>password100</code> which is the last record in <code>accounts.csv</code><br><img src="http://drive.google.com/uc?export=view&amp;id=12Epsoh8vGOGQDDZ7hLC66yzjTaalpk2TJw" alt="Results Tree"></p>
+<p>It does not matter if we have less or more credentials in accounts.csv compare to number of threads we configured. JMeter will use round-robin algorithm to pick up data from the data set. If finished last line, it will pick from the starting again.</p>
+<h2 id="3-4-_More_Listeners">3.4. More Listeners</h2><p>In load testing, we may more care about server response time or throughput. There are many listeners supported in JMeter. We could add few more to test.</p>
+<ul>
+<li>Graph Results: <code>Add</code>-&gt;<code>Listener</code>-&gt;<code>Graph Results</code><br><img src="http://drive.google.com/uc?export=view&amp;id=11bqdjKJRQ6bfoiIUjo97Yvm5JUdLUssM1w" alt="Graph Results"></li>
+<li>Aggregate Graph: <code>Add</code>-&gt;<code>Listener</code>-&gt;<code>Aggregate Graph</code><br><img src="http://drive.google.com/uc?export=view&amp;id=1rKh6jv6WV3K80e5dVr-ZR54JM6nzt4wfhQ" alt="Aggregate Graph"></li>
+</ul>
+<p>We also could save the test results in another file. It could be done by specify filename in any one of listeners.<br><img src="http://drive.google.com/uc?export=view&amp;id=1JANGf2yg4p0rca7WdV92YoFmFOvjvMR7vg" alt="output result"></p>
+<p>The results saved will be looked like following:<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1436468823479</span>,<span class="number">82</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">3</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">28</span>,<span class="number">28</span>,<span class="number">12</span></span><br><span class="line"><span class="number">1436468823477</span>,<span class="number">107</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">2</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">36</span>,<span class="number">36</span>,<span class="number">14</span></span><br><span class="line"><span class="number">1436468823499</span>,<span class="number">150</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">18</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">81</span>,<span class="number">81</span>,<span class="number">66</span></span><br><span class="line"><span class="number">1436468823487</span>,<span class="number">129</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">10</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">64</span>,<span class="number">64</span>,<span class="number">57</span></span><br><span class="line"><span class="number">1436468823482</span>,<span class="number">81</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">4</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">31</span>,<span class="number">31</span>,<span class="number">12</span></span><br><span class="line"><span class="number">1436468823476</span>,<span class="number">70</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">1</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">25</span>,<span class="number">25</span>,<span class="number">9</span></span><br><span class="line"><span class="number">1436468823482</span>,<span class="number">184</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">5</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">87</span>,<span class="number">87</span>,<span class="number">78</span></span><br><span class="line"><span class="number">1436468823488</span>,<span class="number">164</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">9</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">83</span>,<span class="number">83</span>,<span class="number">56</span></span><br><span class="line"><span class="number">1436468823489</span>,<span class="number">365</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">11</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">180</span>,<span class="number">180</span>,<span class="number">95</span></span><br><span class="line"><span class="number">1436468823484</span>,<span class="number">168</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">7</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">83</span>,<span class="number">83</span>,<span class="number">78</span></span><br><span class="line"><span class="number">1436468823499</span>,<span class="number">172</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">13</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">62</span></span><br><span class="line"><span class="number">1436468823494</span>,<span class="number">219</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">15</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">142</span>,<span class="number">142</span>,<span class="number">94</span></span><br><span class="line"><span class="number">1436468823491</span>,<span class="number">181</span>,Login,<span class="number">200</span>,OK,JMeter Tutorial <span class="keyword">Thread</span> <span class="keyword">Group</span> <span class="number">1</span><span class="subst">-</span><span class="number">14</span>,text,<span class="literal">true</span>,<span class="number">4359</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">72</span></span><br><span class="line"><span class="attribute">...</span><span class="built_in">..</span><br><span class="line"></span><span class="attribute">...</span><span class="built_in">..</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="4-_Update_Book">4. Update Book</h1><p>Right now we have already login to the system, let’s proceed to next step [<strong>Update Book</strong>]. In order to make test simple, we temperially change the number of thread back to 1.</p>
+<h2 id="4-1-_Create_HTTP_Request_to_Update_Book">4.1. Create HTTP Request to Update Book</h2><p>Similar as creating [<em>HTTP Request</em>] of [<em>Login</em>] by <code>Add</code>-&gt;<code>Sampler</code>-&gt;<code>HTTP Request</code>. Rename it to <code>Update Book</code>.</p>
+<p>We need to do a manually trial in the system in order to get all parameters required to update a book. We capture the network traffic again.<br><img src="http://drive.google.com/uc?export=view&amp;id=1gaFJUF0eEMY3CglqFFsMIhhabRXfv8mPOA" alt="Update book network traffic capture"></p>
+<p>According to the traffic captured, we configure the setting of [<em>Update Book</em>].</p>
+<ul>
+<li>Server Name or IP: <code>${Server Name}</code></li>
+<li>Implementation: <code>HttpClient3.1</code></li>
+<li>Method: <code>POST</code></li>
+<li>Path: <code>/JmeterTutorial/Book/Edit/1</code></li>
+<li>Parameters:<ul>
+<li>__RequestVerificationToken: <code>PDCC7CppV-wSE51IFuPuOfKpQdo64t-8gt72qmo5zp6SYlwXTlDtOzRLLFsG3N24DHGQtAY43jeaGFeGnJsW7a_WBXgHfzx7E4Za_0PnjcQ1</code></li>
+<li>Id: <code>1</code> </li>
+<li>SerialNumber: <code>37218739821</code></li>
+<li>Title: <code>Circling the Sun</code></li>
+<li>Author: <code>Paula McLain</code></li>
+<li>Price: <code>12.90</code></li>
+</ul>
+</li>
+</ul>
+<p>The final setting will look like following<br><img src="http://drive.google.com/uc?export=view&amp;id=1DSPu1Gg4fTwkRQlGFLhDYPBrNuqT0gwhIg" alt="Setting of Update Book"></p>
+<p>we run the test again with 1 thread, we could see that [<em>Error Page</em>] is shown after requesting to [<em>Edit Book Page</em>]. The error message shows that “<em>Anti-forgery checking failed</em>“.<br><img src="http://drive.google.com/uc?export=view&amp;id=1la6pbA3mXvDobtRj3KUav1jwrQKhckz9LQ" alt="Results Tree"></p>
+<p>The error is because of <em>__RequestVerificationToken</em> we sent is dynamically changed whenever we visit [<em>Edit Book Page</em>]. We need to extract the correct value of <em>__RequestVerificationToken</em> before sending request to update. We are going to resolve it soon.</p>
+<h2 id="4-2-_Response_Assertion">4.2. Response Assertion</h2><p>Before we resolve the anti-forgery request parameter, we look at one more issue. Right now in [<em>View Results Tree</em>], although it fails on updating book, it shows green icon which suggests ‘<em>Success</em>‘. It will bring trouble if we have thousands of threads since we could not exam the details for every request to know which one has error. We could do this automatically by add [<em>Response Assertion</em>].</p>
+<p>Right click on [<em>Update Book</em>] in left menu, choose <code>Add</code>-&gt;<code>Assertions</code>-&gt;<code>Response Assertion</code> in popup menu.<br><img src="http://drive.google.com/uc?export=view&amp;id=1z3oJrpbbDR6BPD1TY85nrnCURF0et1u4yw" alt="Add Response Assertion"></p>
+<p>If we update book successfully, it should go back to book listing page. Therefore, we could validate the body of response should have <code>Book List</code> text. The setting page should be as following<br><img src="http://drive.google.com/uc?export=view&amp;id=1cokbEH5hHIiS9NU1UKOJwBKK4DxpZ1asyg" alt="Response Assert Setting"></p>
+<p>Now we run the test again, we could see there is a red icon before [<em>Update book</em>] which suggests there is an error happened.<br><img src="http://drive.google.com/uc?export=view&amp;id=1eOEmQ1_6SWEFMidQS9GE2dIOdFIw2fXgNQ" alt="Results Tree"></p>
+<p>Sometimes it is meaningless to continue execute the test if there is an error happened, there is a setting that could stop proceeding if error detected. Click on thread group, and select option when sample error happened. In this tutorial, we choose <code>Stop Thread</code>.<br><img src="http://drive.google.com/uc?export=view&amp;id=1E1k8gUqAJCWri_LmrM5vQimjWj5fRXUx3A" alt="Stop Thread When Sample Error"></p>
+<h2 id="4-3-_Extract_Data_From_Response">4.3. Extract Data From Response</h2><p>To resolve the anti-forgery issue, we need to visit [<em>Edit Book Page</em>] and extract <em>__RequestVerificationToken</em> from the response.</p>
+<h3 id="4-3-1-_Add_HTTP_Request_To_Show_Edit_Form">4.3.1. Add HTTP Request To Show Edit Form</h3><p>Add a [<em>HTTP Request</em>] between [<em>Login</em>] and [<em>Update Book</em>]. This request to <code>/JMeterTutorial/Book/Edit/1</code>. Name this request to <code>Show Edit Form</code>.<br><img src="http://drive.google.com/uc?export=view&amp;id=1wwMlivJ2mYs5nYPPl1jh5zGDmM5dhAAivw" alt="show edit form"></p>
+<h3 id="4-3-2-_Extract_Response">4.3.2. Extract Response</h3><p>Right click on [<em>Show Edit Form</em>], choose <code>Add</code>-&gt;<code>Post Processors</code>-&gt;<code>Regular Expression Extractor</code> in popup menu.<br><img src="http://drive.google.com/uc?export=view&amp;id=1Vu_P-yeuzRDo4jtNj26r_Mj4JG0bCr4VPg" alt="Add regular expression extractor"></p>
+<p>Change the name to <code>Extract Anti-Forgery Token</code>. And edit the setting:</p>
+<ul>
+<li>Field to check: <code>Body</code>.<br>The <em>__RequestVerificationToken</em> is in response body. </li>
+<li>Reference Name: <code>token</code>.<br>This is the variable name for the value after extraction.</li>
+<li>Regular Expression: <code>&lt;input name=&quot;__RequestVerificationToken&quot; type=&quot;hidden&quot; value=&quot;(.*)&quot; /&gt;</code>.<br>The regular expression to match the value. The value will be retrieved inside <code>()</code></li>
+<li>Template: <code>$1$</code><br><em>$1$</em> refers to the value inside first <em>()</em></li>
+</ul>
+<p>The final setting will look like following:<br><img src="http://drive.google.com/uc?export=view&amp;id=1_EvOcSgsFnIiojagBbBRPiVCDc-A6rmoSw" alt="regular expression extractor setting"></p>
+<h3 id="4-3-3-_Apply_Token_extracted_to_Update_Book_Request">4.3.3. Apply Token extracted to Update Book Request</h3><p>We have extracted token from [<em>Show Edit Form</em>]. Click on [<em>Update Book</em>], change value of <em>__RequestVerificationToken</em> to <code>${token}</code>.<br><img src="http://drive.google.com/uc?export=view&amp;id=1qTdEeus2hlfHVUjR7E23jNNu4g8_sYdAdQ" alt="update book setting"></p>
+<p>We run the test again, we should see all requests are success.<br><img src="http://drive.google.com/uc?export=view&amp;id=1W6_-aDIrjL5ePAW3SzOw13SJb3ehqCzk5g" alt="Results Tree"></p>
+<h1 id="5-_Logout">5. Logout</h1><p>Last step is to add logout request.<br><img src="http://drive.google.com/uc?export=view&amp;id=1G1WeSpqQCpGp3E7HVrQMhZDsmdGRQFNikw" alt="logout request"></p>
+<p>After logout, it should redirect to login form. therefore, we could add a response assertion.<br><img src="http://drive.google.com/uc?export=view&amp;id=1FqTzahYHgK0JIvGO4bdB6IUAYAZRPf__qw" alt="logout response assertion"></p>
+<p>We run the test now should see following in [<em>Results Tree</em>]<br><img src="http://drive.google.com/uc?export=view&amp;id=15W6JUWE3ZbFwTCBaVbWnZs3MCLausdoXfA" alt="Results Tree"></p>
+<p>Change back the number of thread to 100. We could see result in listeners.</p>
+<h1 id="6-_Conclusion">6. Conclusion</h1><p>By follow this tutorial, you could be able to complete the simple load testing from scratch. There are much more functions available in JMeter. This post only covers basic but useful scenarios.</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/JMeter/">JMeter</a> <a class="tag tag--primary tag--small t-link" href="/tags/Load-testing/">Load testing</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/09/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/09/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/10/Jmeter-step-by-step/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>
