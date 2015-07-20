@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Continuos Improvement and Respect for People - Noah Team&#39;s Blog</title>
+    <title>Remote usability testing tool: Click Heat Map - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -134,20 +134,34 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Continuos Improvement and Respect for People</h1>
+        <h1 class="post-title" itemprop="headline">Remote usability testing tool: Click Heat Map</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Mon Jun 29 2015 22:27:10 GMT+0800">
-        Jun 29, 2015
+    <time  itemprop="datePublished" content="Sun Jul 19 2015 12:04:07 GMT+0800">
+        Jul 19, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <p>TOYOTA Senior Advisor Katsuaki Watanabe:<br>The Toyota Way has two main pillars:continuos improvement and respect for people.<br>Respect is necessary to work with people. By “People” we mean employees, supply partners, and customers.<br>… We don’t mean just the end customer; on the assembly line the person at the next workstation is also your<br>customer. That leads to teamwork.  If you adopt that principle, you’ll also keep analyzing what you do<br>in order to see if you’re doing things perfectly, so you’re not troubling your customer.<br>That nutures your ability to idnetify problems, and if you closely observe things, it will lead to<br>kaizen-continuos improvement. The root of the Toyota Way is to be dissatisfied with the status quo; you have<br>to ask constantly, “Why are we doing this?”</p>
-<p>It reminds me of sprint retrospective in scrum. During retrospective, we stop and review what can be done better to deliver the value of the story. </p>
-<p><agile retrospectives:="" making="" good="" teams="" great=""> indicates gathering data, generating insight, and deciding what to do for improvement unfolds retrospective.<br>It’s the kaizen-continuos improvement lead by close observation during the sprint. Team also thanks each other in retrospective for the assistence received, which is the action of respect for people.<br>We appreaciate everyone’s effort to deliver story value through teamwork.      </agile></p>
+        <h2 id="About">About</h2><p>Wanting to know the behaviour of users using a site, many will think of Click Heat Map.<br>Click Heat Map is a visualised click action of user done in a page with different colors.<br><img src="http://blog.corunet.com/uploads/final.png" alt="Click Heat Map" title="Click Heat Map"></p>
+<p>The basic idea of the implementation:</p>
+<ol>
+<li>Record all the coordinates of any click action using javascript onclick event handler/ mouseclick event handler.</li>
+<li>Then sending the information like coordinates, url to server and stored those information.</li>
+<li>Display those stored information in heat map style.</li>
+</ol>
+<p>Sample code from <a href="http://stackoverflow.com/questions/2496267/recording-user-data-for-heatmap-with-javascript" target="_blank" rel="external">stackoverflow</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">document.onclick = <span class="keyword">function</span>(e)&#123;</span><br><span class="line">  var trackImg = new Image();</span><br><span class="line">  trackImg.src = <span class="string">'http://tracking.server/img.gif?x='</span>+e.clientX+<span class="string">'&amp;y='</span>+e.clientY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Technical difficulties:</p>
+<ol>
+<li>Different screen size and resolution</li>
+<li>Dynamic layout like comments,  pop up alert.</li>
+<li>Optimise performance of recording click actions to avoid extra loading to website</li>
+<li>Need to support cross-browser compatibility</li>
+</ol>
+<p>If writing one is too much of work, <a href="http://www.paulolyslager.com/heatmap-hot-or-not/" target="_blank" rel="external">here</a> has a list of 3rd party application on click heat map.</p>
+<p>Other alternative:<br>In-Page Analytics<br><img src="https://lh3.googleusercontent.com/-Qx4GZbibbtY/Va0wbWoazJI/AAAAAAAAAUc/kwzlqAJSYEo/w1009-h520-no/In-Page_Analytics.png" alt="In-Page_Analytics" title="In-Page_Analytics"></p>
 
         
             
@@ -158,7 +172,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/agile/">agile</a> <a class="tag tag--primary tag--small t-link" href="/tags/lean/">lean</a> <a class="tag tag--primary tag--small t-link" href="/tags/scrum/">scrum</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Heat-Map/">Heat Map</a> <a class="tag tag--primary tag--small t-link" href="/tags/Remote-usability-testing-tool/">Remote usability testing tool</a>
 
             </div>
         
@@ -167,7 +181,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/connection-timeout-issue-for-mssql/"  data-tooltip="Connection Timeout Issue for MSSQL">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -175,7 +189,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -185,17 +199,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -234,7 +248,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/connection-timeout-issue-for-mssql/"  data-tooltip="Connection Timeout Issue for MSSQL">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -242,7 +256,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/06/29/css @media query/" data-tooltip="Introduction to CSS3 @media query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -252,17 +266,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
