@@ -137,15 +137,15 @@
         <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Sat Jul 04 2015 22:59:26 GMT+0800">
-        Jul 04, 2015
+    <time  itemprop="datePublished" content="Tue Jul 21 2015 08:54:12 GMT+0800">
+        Jul 21, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
+        <p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
 <h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
 <p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
 <p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
@@ -174,7 +174,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/04/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -182,7 +182,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/" data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -192,17 +192,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -241,7 +241,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/04/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -249,7 +249,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/03/use-testdata-repository-to-simplify-integration-test/" data-tooltip="Use TestData Repository to simplify your Integration Test">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -259,17 +259,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/04/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
