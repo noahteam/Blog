@@ -1,6 +1,7 @@
 title: Session State for IIS 7
 date: 2015-07-22 09:20:22
 tags: IIS
+thumbnailImage: https://lh3.googleusercontent.com/EdNref_ZKMhWHqME0SK4vn5fnyeW3nmpMamCfv6MxvU=w479-h274-no
 ---
 
 ##About
