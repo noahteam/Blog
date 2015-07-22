@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Connection Timeout Issue for MSSQL - Noah Team&#39;s Blog</title>
+    <title>How to store performance monitor data in SQL server database - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -134,10 +134,10 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Connection Timeout Issue for MSSQL</h1>
+        <h1 class="post-title" itemprop="headline">How to store performance monitor data in SQL server database</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Tue Jul 21 2015 11:06:48 GMT+0800">
+    <time  itemprop="datePublished" content="Tue Jul 21 2015 00:37:17 GMT+0800">
         Jul 21, 2015
     </time>
     
@@ -145,16 +145,26 @@
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <p>This post is to address connection fast timeout issue for MSSQL when using default connection timeout.</p>
-<h2 id="Content">Content</h2><p>The default value for MSSQL timeout of connection is 15sec. However, sometimes application connecting to a SQL Server Database may timeout within milliseconds<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlException</span>: Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionPool</span><span class="class">.GetConnection</span>(DbConnection owningObject)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionFactory</span><span class="class">.GetConnection</span>(DbConnection owningConnection)</span><br><span class="line">    at   System<span class="class">.Data</span><span class="class">.ProviderBase</span><span class="class">.DbConnectionClosed</span><span class="class">.OpenConnection</span>(DbConnection outerConnection, DbConnectionFactory connectionFactory)</span><br><span class="line">    at System<span class="class">.Data</span><span class="class">.SqlClient</span><span class="class">.SqlConnection</span><span class="class">.Open</span>()</span><br></pre></td></tr></table></figure></p>
-<p>The issue happens, because, SQLClient uses the connection retry algorithm (for TCP/IP Connections), and sets the initial connection timeout value as 15*0.08 = 1.2s and first tries to connect to the principal SQL server and if fails, then, tries to connect to mirrored SQL Server (the fact that the database is mirrored, may come from the connection string or SQLClient may collect this information, the first time it connects to the database). If this connection attempt also fails due to timeout (because of slow response from SQL Server or due to network delays), the SQLClient incorrectly sets the connection to doomed state, giving the connection timeout exception, without further connection retry attempt to principal.</p>
-<p>Microsoft has confirmed that this is a problem in the current release of ADO.NET. This issue will be fixed in ADO.NET version, ships with Visual Studio 2011.</p>
-<p>In the meantime, we request to use the following workarounds:</p>
-<ol>
-<li>Increase the connection string timeout to 150 sec. This will give the first attempt enough time to connect( 150* .08=12 sec)</li>
-<li>Add MinPool Size=20 in the connection string. This will always maintain a minimum of 20 connections in the pool and there will be less chances of creating new connection, thus reducing the chance of this error.</li>
-<li>Improve the network performance. Update your NIC drivers to the latest firmware version. We have seen network latency when your NIC card is not compatible with certain Scalable Networking Pack settings. If you are on Windows Vista SP1 or above you may also consider disabling Receive Window Auto-Tuning. If you have NIC teaming enabled, disabling it would be a good option.</li>
-</ol>
+        <h2 id="About">About</h2><p><img src="https://lh3.googleusercontent.com/OX_1xPFlXWJt-QYiB9FuAN7AhQy0QT4-EceNIUf-W8g=w1024-h764-no" alt="Performance Monitor" title="Performance Monitor"><br>Performance monitor is a very good tool for us to monitor real time SQL Server performance data, such as <strong>CPU usage</strong>, <strong>memory usage</strong>, <strong>batch request/sec</strong> and so on. But the question is, could we store these information into database to do offline analysis ? The answer is yes ! And we are going to show you how.</p>
+<h2 id="Create_system_Data_Source_Name_(DSN)">Create system Data Source Name (DSN)</h2><p>First of all, you have to create an empty database, in this case, my database is created in my local laptop called <strong>PerformanceMonitor</strong><br><img src="https://lh3.googleusercontent.com/pOusKB28E6pKMKHiAba7uzw-w9UiTf79kmyOqa8Mdd0=w345-h225-no" alt="PerformanceMonitorDatabase" title="PerformanceMonitor Database"></p>
+<p>Run <strong>odbcad32.exe</strong> in Start &gt; Run. To open <strong>ODBC Data Source Administrator</strong>.<br><img src="https://lh3.googleusercontent.com/1kJHjdUUWXKZMygiIy9umChB_hY5M00-Di3wffMxRtE=w413-h212-no" alt="odbcad32.exe" title="odbcad32.exe"></p>
+<p>Then goes to <strong>System DSN</strong> and select <strong>Add</strong>.<br><img src="https://lh3.googleusercontent.com/daDlscLuV_9OJZH2bFY4O7cIKVtFwTk607gK249LydA=w471-h390-no" alt="System DSN" title="System DSN"></p>
+<p>Select a driver<br><img src="https://lh3.googleusercontent.com/SXkrQxSDo3_jNmpbcDlG_M-xIZlWKtKvOEJzmrpmbjk=w478-h358-no" alt="Select a driver for which you want to set up a data source" title="Select a driver for which you want to set up a data source"></p>
+<p>Enter any name, and your database location (in this case it’s localhost “.\”)<br><img src="https://lh3.googleusercontent.com/5ujQBMr8xntptoQ_JMzK_2E6PiQRcGRi_-TF9f7bVtY=w520-h368-no" alt="Create a new data source to SQL Server" title="Create a new data source to SQL Server"></p>
+<p>Set up authentication<br><img src="https://lh3.googleusercontent.com/aMv0WnBlC2XsHrrfeAOXrfy4C1aFSBw37r3tVibqeN4=w520-h368-no" alt="Set up authentication" title="Set up authentication"></p>
+<p>Change the default database to <strong>PerformanceMonitor</strong><br><img src="https://lh3.googleusercontent.com/ChzZ60EhEmMyBpFejVyK9ns2qvR8icfO8qjN5yjgwqI=w520-h368-no" alt="Change the default database to PerformanceMonitor" title="Change the default database to PerformanceMonitor"></p>
+<p>Next and click Finish<br><img src="https://lh3.googleusercontent.com/wOtmF3V_dEeFG8xrbjAoRtex2FJnhmrG6bCthsuxy4A=w520-h368-no" alt="Next and click Finish" title="Next and click Finish"></p>
+<p>You could test data source connection<br><img src="https://lh3.googleusercontent.com/BRuclBri51QPYh3p3owc1mex-NPqw0OC4HZaiq2YUZU=w378-h392-no" alt="Test data source" title="Test data source"></p>
+<h2 id="Reliability_and_Performance_Monitor">Reliability and Performance Monitor</h2><p>Run <strong>perfmon.exe</strong> in Start &gt; Run. To open <strong>Performance Monitor</strong>.<br><img src="https://lh3.googleusercontent.com/jULpc3x-fKikOBdzjCv6qsQFLXoP4iY2_ky_AcYsLnc=w413-h212-no" alt="perfmon.exe" title="perfmon.exe"></p>
+<p>Create a new data collector set<br><img src="https://lh3.googleusercontent.com/1hWNNB0SXoi5670gX9U6YGP0l69GIoWx97sCxPooUas=w547-h355-no" alt="Create a new data collector set" title="Create a new data collector set"></p>
+<p>Create manually (Advanced)<br><img src="https://lh3.googleusercontent.com/oTlYRpSiK5dMGeCrGqpJKJCZfEkvIQXzN7u4-52Igvc=w549-h424-no" alt="Create manually (Advanced)" title="Create manually (Advanced)"></p>
+<p>Create data logs, select Performance counter<br><img src="https://lh3.googleusercontent.com/1aU5q1SKtPX0QsYcWD9w3r18NJfaOIO0dQw4EZyrGJU=w549-h424-no" alt="Select performance counter" title="Select performance counter"></p>
+<p>Add performance counters and choose Data Source Name (DSN)<br><img src="https://lh3.googleusercontent.com/Mpzd1rV4C6GLrAHfhV3We2fk-vDAGgrTN1fQr9uTtT0=w414-h461-no" alt="Add performance counters" title="Add performance counters"></p>
+<p><strong>Start</strong><br><img src="https://lh3.googleusercontent.com/krl2Xz3gLzselFD_dQAJyXHtJnRfPFbIQceaL4yWwlA=w534-h274-no" alt="Start by hitting green arrow" title="Start by hitting green arrow"></p>
+<p>You Shall see there are some tables being created in <strong>PerformanceMonitor</strong> database.<br><img src="https://lh3.googleusercontent.com/YHS3Jc257-MvYGlq10Ps-zcK27vApaLcQf3inpfOVC4=w345-h438-no" alt="Database" title="Database"></p>
+<h2 id="Trouble_Shooting">Trouble Shooting</h2><p>You might get errors such as “Call to SQLExecDirect failed with %1”, this is most likely since the “PerformanceMonitor” is set to run as System or any<br>other account that doesn’t have access to the SQL Server.<br>If this is the case, then right click “PerformanceMonitor” and select properties.</p>
+<p>This will give you the option to change the Run As account, do this and use an account that has the proper rights, for example your windows account.</p>
+<h2 id="Reference">Reference</h2><p><a href="http://blogs.msdn.com/b/spike/archive/2009/08/27/how-to-store-performance-monitor-data-into-sql-server-using-reliability-and-performance-monitor.aspx" target="_blank" rel="external">How to store performance monitor data into SQL Server using Reliability and Performance Monitor</a></p>
 
         
             
@@ -165,7 +175,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/mssql/">mssql</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/database/">database</a> <a class="tag tag--primary tag--small t-link" href="/tags/performance-monitor/">performance monitor</a> <a class="tag tag--primary tag--small t-link" href="/tags/sql/">sql</a>
 
             </div>
         
@@ -174,7 +184,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/implement-permission-control-for-mvc5-project/"  data-tooltip="Implement Permission Control for MVC5 Project">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -182,7 +192,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/" data-tooltip="Binding Event on Datatables">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Map/" data-tooltip="Remote usability testing tool: Click Heat Map">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -192,17 +202,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -241,7 +251,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/implement-permission-control-for-mvc5-project/"  data-tooltip="Implement Permission Control for MVC5 Project">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -249,7 +259,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/" data-tooltip="Binding Event on Datatables">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Map/" data-tooltip="Remote usability testing tool: Click Heat Map">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -259,17 +269,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/how-to-store-performance-monitor-data-in-sql-server/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
