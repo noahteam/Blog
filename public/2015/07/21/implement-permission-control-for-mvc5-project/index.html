@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>Implement Permission Control for MVC5 Project - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Implement Permission Control for MVC5 Project</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Tue Jul 21 2015 23:55:00 GMT+0800">
+        Jul 21, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <p>When building backend system for a website, like member management system or accounting system, permission control has always been a must-have feature, so that different staffs or operators can be assigned just enough permissions to perform tasks.</p>
+<p>For example, in an accouting system, some operators may only focus on doing money transfer, while some operators only handle reports. There will be information leakage and risks if just grant all permissions for all operators blindly.</p>
+<h1 id="1-_Requirements">1. Requirements</h1><p><img src="http://7qn89w.com1.z0.glb.clouddn.com/2015-07-21_013438.jpg" alt="alt text"></p>
+<p>We start from requirement analysis first.  Assume we have following requirements need to fulfill:</p>
+<ul>
+<li><p>When an operator log in to system, render menu for him based on his permissions. </p>
+<ul>
+<li>for example, if he has permission to view member list, but no permission to view report, then only show member list menu for him</li>
+</ul>
+</li>
+<li><p>As long as an operator has permission to view the page, he should has permissions to perform any action available on the page</p>
+<ul>
+<li>for example, if he has permission to view member list, he can use the update status function provided on the page</li>
+</ul>
+</li>
+<li><p>If he try to access pages which he doesn’t have permission, should be blocked</p>
+</li>
+<li><p>Boss can easily assign permission to an operator, or a group of operators</p>
+</li>
+</ul>
+<h1 id="2-_General_Design">2. General Design</h1><h2 id="2-1_Resource_Permission_on_Controller_-&gt;_Action">2.1 Resource Permission on Controller -&gt; Action</h2><p>To have control over all pages, we use permission control over all <code>Actions</code>.</p>
+<p>Why? Because in MVC framework, all requests are passed to <code>Controller</code> and processed by <code>Action</code>, it makes sense to consider each action as a resource that an unique permission is assigned to.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Resource]</span><br><span class="line">(</span><br><span class="line">    [ResourceId] <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>, <span class="number">1</span>), </span><br><span class="line">    [ResourceName] <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,   <span class="comment">-- e.g. CreateMember</span></span><br><span class="line">    [ResourceType] TINYINT <span class="keyword">NOT</span> <span class="literal">NULL</span>, </span><br><span class="line">    [ParentId] <span class="built_in">INT</span> <span class="literal">NULL</span>, </span><br><span class="line">    [IsDefault] <span class="built_in">BIT</span> <span class="literal">NULL</span></span><br><span class="line">    <span class="keyword">CONSTRAINT</span> [PK_Resource] <span class="keyword">PRIMARY</span> <span class="keyword">KEY</span> CLUSTERED</span><br><span class="line">    (</span><br><span class="line">        ResourceId <span class="keyword">ASC</span></span><br><span class="line">    )<span class="keyword">WITH</span> (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = <span class="keyword">ON</span>, ALLOW_PAGE_LOCKS  = <span class="keyword">ON</span>) <span class="keyword">ON</span> [<span class="keyword">PRIMARY</span>],</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<p>In application, since every action need to have a permission checking, to generalize it, we can put it in <code>BaseController</code> (base controller inherits MVC <code>Controller</code>):</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnActionExecuting</span>(<span class="params">ActionExecutingContext context</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!IsAllowedAction(context))</span><br><span class="line">        &#123;</span><br><span class="line">            context.Result = <span class="keyword">new</span> HttpUnauthorizedResult();</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">base</span>.OnActionExecuting(context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">bool</span> <span class="title">IsAllowedAction</span>(<span class="params">ActionExecutingContext context</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> controller = context.RouteData.Values[<span class="string">"controller"</span>].ToString();</span><br><span class="line">    <span class="keyword">var</span> action = context.RouteData.Values[<span class="string">"action"</span>].ToString();</span><br><span class="line">    <span class="keyword">if</span> (AppSession.HasPermission(controller, action))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-2_Process_flow">2.2 Process flow</h2><p>The process for display menu by permission is as below</p>
+<p><img src="http://7qn89w.com1.z0.glb.clouddn.com/2015-07-21_020525.jpg" alt="alt text"></p>
+<h1 id="3-_Technical_Details">3. Technical Details</h1><h2 id="3-1_Map_Menu_with_Resource">3.1 Map Menu with Resource</h2><p>Each leaf menu node correspond to an <code>Action</code>. So we need to have a mapping of Menu with Resource</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[MenuConfig]</span><br><span class="line">(</span><br><span class="line">    [<span class="keyword">Key</span>] <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>, </span><br><span class="line">    [ParentKey] <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="literal">NULL</span>, </span><br><span class="line">    [ResourceId] <span class="built_in">INT</span> <span class="literal">NULL</span>,</span><br><span class="line">    [IsPageButton] <span class="built_in">BIT</span></span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<p>After user log in, get all permissions he has, then based on these permissions and the mapping, we can get all menus he can see.</p>
+<p>There is a special handling for <strong>IsPageButton</strong>, sometimes in a page, there are buttons which can perform some action (e.g. link to another page, make a POST request).</p>
+<p>It is special because we won’t display these menus on top menu bar. So this flag is useful when process render menu.</p>
+<h2 id="3-2_Why_Control_Resource_Permission_by_Group?">3.2 Why Control Resource Permission by Group?</h2><p>When number of operators grow, it is useful to assign them into different groups, each group perform certain tasks.</p>
+<p>To achieve this, during operator creation, will force the creator to map this operator to a group. Then, in the future, this operator’s permission will just follow his group’s permission.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> GroupResourcePermission(</span><br><span class="line">    [GroupId] <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    [ResourceId] <span class="built_in">INT</span> <span class="literal">NULL</span>, </span><br><span class="line">    [IsAllowed] <span class="built_in">BIT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-3_Manage_Resource_Permission_in_most_straight-forward_way!">3.3 Manage Resource Permission in most straight-forward way!</h2><p>Below is the update resource permission process:</p>
+<p><img src="http://7qn89w.com1.z0.glb.clouddn.com/2015-07-22_171605.jpg" alt="alt text"></p>
+<p>To make it simple to use, we use the same design as the menu bar, just add checkbox for operator to <code>tick / untick</code> to <code>GRANT / DENY</code> resource permissions.</p>
+<p><img src="http://7qn89w.com1.z0.glb.clouddn.com/2015-07-22_172337.jpg" alt="alt text"></p>
+<p>After user submit, backend receive the new menu set, then generate corresponding permissions needed for this new menu set, then compare new permissions with old permissions and find the difference, then update the difference to DB.</p>
+<h1 id="4-_Summary">4. Summary</h1><p>By reading this blog, you should have a better idea of how to do permission control under MVC framework. Hope it can help in future work!</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/C/">C#</a> <a class="tag tag--primary tag--small t-link" href="/tags/MVC/">MVC</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/Jmeter-step-by-step/" data-tooltip="JMeter from Scratch - Step by Step Tutorial">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>
