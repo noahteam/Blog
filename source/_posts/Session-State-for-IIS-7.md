@@ -47,15 +47,6 @@ After make sure ASP.NET State Service is started, add following configuration to
 ```
 Change the SampleStateServer to the ip of your state server.
 
-```java
-[Serializable()]
-public class ObjectSaveToSession{
-	/*
-	some attribute or method here
-	*/
-}
-```
-
 ##SQL Server Mode
 SQLServer mode stores session state in SQL Server daatabase. 
 
@@ -94,3 +85,11 @@ aspnet_regsql.exe -S SampleSqlServer -E -ssadd -sstype p
 
 ##Tips
 One thing need to be careful is that Objects stored in session must be serializable if using this mode. The simple way is to add SerializableAttribute to the class like below.
+```java
+[Serializable()]
+public class ObjectSaveToSession{
+	/*
+	some attribute or method here
+	*/
+}
+```
