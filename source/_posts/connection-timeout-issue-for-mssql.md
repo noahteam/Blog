@@ -3,7 +3,6 @@ author: chen chao
 tags: mssql
 ---
 
-## About 
 This post is to address connection fast timeout issue for MSSQL when using default connection timeout.
 
 ## Content

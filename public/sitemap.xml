@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+<<<<<<< HEAD
     <loc>http://noahteam.com/2015/07/21/implement-permission-control-for-mvc5-project/</loc>
     <lastmod>2015-07-22T09:27:30.000Z</lastmod>
   </url>
@@ -59,20 +60,93 @@
   <url>
     <loc>http://noahteam.com/2015/06/28/reading-response-peter-drucker/</loc>
     <lastmod>2015-07-02T07:04:16.000Z</lastmod>
+=======
+    <loc>http://noahteam.com/2015/07/21/connection-timeout-issue-for-mssql/</loc>
+    <lastmod>2015-07-21T03:06:48.581Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/21/Binding%20Event%20on%20Datatables/</loc>
+    <lastmod>2015-07-21T03:06:48.578Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/19/Map/</loc>
+    <lastmod>2015-07-20T18:51:02.005Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/24/user-story-mapping/</loc>
+    <lastmod>2015-07-19T04:01:57.114Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/07/reading-response-dialogue/</loc>
+    <lastmod>2015-07-19T04:01:57.110Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/07/some-guideline-on-writing-better-query/</loc>
+    <lastmod>2015-07-19T04:01:57.110Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/19/mvc5-complex-object-model-binding/</loc>
+    <lastmod>2015-07-19T04:01:57.106Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/19/Jmeter-step-by-step/</loc>
+    <lastmod>2015-07-19T04:01:57.106Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/06/Introduction-to-Zen-Coding/</loc>
+    <lastmod>2015-07-19T04:01:57.102Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/03/use-testdata-repository-to-simplify-integration-test/</loc>
+    <lastmod>2015-07-05T15:47:07.257Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/05/javascript-unit-test-with-jasmine-karma/</loc>
+    <lastmod>2015-07-05T15:47:07.242Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/28/reading-response-peter-drucker/</loc>
+    <lastmod>2015-07-05T15:47:07.242Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/filter-ip-in-a-ip-range/</loc>
+    <lastmod>2015-07-05T15:47:07.242Z</lastmod>
+>>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
   </url>
   
   <url>
     <loc>http://noahteam.com/2015/06/29/use-jenkins-and-msdeploy-for-website-deployment/</loc>
+<<<<<<< HEAD
     <lastmod>2015-06-29T16:34:42.000Z</lastmod>
+=======
+    <lastmod>2015-06-29T18:00:41.935Z</lastmod>
+>>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
   </url>
   
   <url>
     <loc>http://noahteam.com/2015/06/19/first-blog/</loc>
+<<<<<<< HEAD
     <lastmod>2015-06-29T16:24:15.000Z</lastmod>
+=======
+    <lastmod>2015-06-29T18:00:41.920Z</lastmod>
+>>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
   </url>
   
   <url>
     <loc>http://noahteam.com/2015/06/29/Continuos-Improvement-and-Respect-for-People/</loc>
+<<<<<<< HEAD
     <lastmod>2015-06-29T16:23:55.000Z</lastmod>
   </url>
   
@@ -94,6 +168,29 @@
   <url>
     <loc>http://noahteam.com/all-categories/index.html</loc>
     <lastmod>2015-06-19T15:52:50.000Z</lastmod>
+=======
+    <lastmod>2015-06-29T18:00:41.920Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/06/29/css%20@media%20query/</loc>
+    <lastmod>2015-06-29T18:00:41.920Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/all-tags/index.html</loc>
+    <lastmod>2015-06-29T14:56:31.017Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/all-categories/index.html</loc>
+    <lastmod>2015-06-29T14:56:31.017Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/all-archives/index.html</loc>
+    <lastmod>2015-06-29T14:56:31.017Z</lastmod>
+>>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
   </url>
   
 </urlset>

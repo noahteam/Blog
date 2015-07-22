@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Noah Team&#39;s Blog">
-    <title>Reading Response - 深度匯談 (Dialogue) from 第五項修煉 (The Fifth Discipline) - Noah Team&#39;s Blog</title>
+    <title>Remote usability testing tool: Click Heat Map - Noah Team&#39;s Blog</title>
     <meta name="author" content="Noah">
     <meta name="description" content="Noah Team&#39;s Blog">
     <link rel="icon" href="/assets/images/null">
@@ -134,26 +134,34 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">Reading Response - 深度匯談 (Dialogue) from 第五項修煉 (The Fifth Discipline)</h1>
+        <h1 class="post-title" itemprop="headline">Remote usability testing tool: Click Heat Map</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Tue Jul 07 2015 21:05:48 GMT+0800">
-        Jul 07, 2015
+    <time  itemprop="datePublished" content="Sun Jul 19 2015 12:04:07 GMT+0800">
+        Jul 19, 2015
     </time>
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <h2 id="About">About</h2><p>《第五項修煉》by Peter M. Senge，這是一本關於學習型組織的書，其內容主要說明學習型組織的藝術與價值，以及如何實踐的技巧。<br>而最近看了其中一項修煉「團隊學習」的一小部份，叫做「深度匯談」。</p>
-<h2 id="團隊學習？">團隊學習？</h2><p>「為何每個成員智商皆高於120，何以集體的智商只有63？」這是書上的一段話，在聽完這句話後，心裡有了一些感觸…<br>舉個實際的例子，在NBA，常常有球隊花大把大把的銀子，簽下了很多明星球員，組成黃金陣容，以為球隊因此而大大提高了戰力，但最後往往令人大失所望。<br>一個球隊，如果球員不懂得如何溝通協調，思考找出合作的方法與默契，是沒有辦法打出好成績的！</p>
-<h2 id="討論？深度匯談？">討論？深度匯談？</h2><p>在球場上如此，在工作中亦然，如何在團隊中有效的溝通、建立默契？我想討論應該是一個很重要的過程。</p>
-<p>對於討論，書上有一個很有趣也發人省思的說明：<br>「討論」(discusion)與「碰擊」(percussion)和「震盪」(concussion)有相同的字根，其義近似於一種來回交手，欲求勝利的比賽。</p>
-<p>曾幾何時，覺得討論結果合於己意，而感到開心雀躍，而又曾幾何時，因結果不如預期，而感到失望。這個比喻或許不甚貼切，但主要是想要表達那種交手的感覺，而這其實是一種「習慣性防衛」的感覺，為了免受威脅與窘困的習慣性的互動方式。</p>
-<p>若我們能夠了解在討論時的防衛，並不時提醒自己，便可以更客觀的角度來討論問題，而這便是書上所說的「深度匯談」(dialogue)，以下是書中的說法：</p>
-<p>「深度匯談」源自希臘的「dialogos」，「dia」意指「透過」，「logos」意指「文字」或「意義」。意指：「在人們之間自由流動的意義。」<br>在深度匯談時，大家以多樣的觀點探討複雜的難題，每個人攤出心中的假設，並自由交換他們的想法。在一種無拘無束的探索中，將深藏的經驗與想法完全浮現，而超過各自的想法。</p>
-<h2 id="反思">反思</h2><p>希望能時時提醒自己，了解與避免習慣性的防衛。</p>
-<p>而，對於「客觀」也有一個感想：在「討論」的過程中，「客觀」其實是非常重要的「規則」，但是往往在「討論」的過程漸漸深入，「主觀」就會在不知不覺間進入。由於參與「討論」的都是關係人，除非有非常高超的智慧來辨識「主觀」，否則很容易因此而產生阻力。但此時，如果有一個中立的第三者，來觀看整個「討論」的過程，他往往能夠很容易的找出盲點，若能適時的點破，則「討論」的阻力就能消失，甚至因找出阻力的癥結，而轉化為助力。<br>這不就是一個團隊中，Scrum Master存在的珍貴之處嗎？</p>
+        <h2 id="About">About</h2><p>Wanting to know the behaviour of users using a site, many will think of Click Heat Map.<br>Click Heat Map is a visualised click action of user done in a page with different colors.<br><img src="http://blog.corunet.com/uploads/final.png" alt="Click Heat Map" title="Click Heat Map"></p>
+<p>The basic idea of the implementation:</p>
+<ol>
+<li>Record all the coordinates of any click action using javascript onclick event handler/ mouseclick event handler.</li>
+<li>Then sending the information like coordinates, url to server and stored those information.</li>
+<li>Display those stored information in heat map style.</li>
+</ol>
+<p>Sample code from <a href="http://stackoverflow.com/questions/2496267/recording-user-data-for-heatmap-with-javascript" target="_blank" rel="external">stackoverflow</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">document.onclick = <span class="keyword">function</span>(e)&#123;</span><br><span class="line">  var trackImg = new Image();</span><br><span class="line">  trackImg.src = <span class="string">'http://tracking.server/img.gif?x='</span>+e.clientX+<span class="string">'&amp;y='</span>+e.clientY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Technical difficulties:</p>
+<ol>
+<li>Different screen size and resolution</li>
+<li>Dynamic layout like comments,  pop up alert.</li>
+<li>Optimise performance of recording click actions to avoid extra loading to website</li>
+<li>Need to support cross-browser compatibility</li>
+</ol>
+<p>If writing one is too much of work, <a href="http://www.paulolyslager.com/heatmap-hot-or-not/" target="_blank" rel="external">here</a> has a list of 3rd party application on click heat map.</p>
+<p>Other alternative:<br>In-Page Analytics<br><img src="https://lh3.googleusercontent.com/-Qx4GZbibbtY/Va0wbWoazJI/AAAAAAAAAUc/kwzlqAJSYEo/w1009-h520-no/In-Page_Analytics.png" alt="In-Page_Analytics" title="In-Page_Analytics"></p>
 
         
             
@@ -164,7 +172,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Scrum-Master/">Scrum Master</a> <a class="tag tag--primary tag--small t-link" href="/tags/team/">team</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Heat-Map/">Heat Map</a> <a class="tag tag--primary tag--small t-link" href="/tags/Remote-usability-testing-tool/">Remote usability testing tool</a>
 
             </div>
         
@@ -173,11 +181,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-<<<<<<< HEAD
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
-=======
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Jmeter-step-by-step/"  data-tooltip="JMeter from Scratch - Step by Step Tutorial">
->>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -185,7 +189,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/some-guideline-on-writing-better-query/" data-tooltip="Some guidelines on writing a better SQL query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -195,17 +199,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -244,11 +248,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-<<<<<<< HEAD
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/10/javascript-unit-test-with-jasmine-karma/"  data-tooltip="Simple example of Javascript unit test by Jasmine + Karma">
-=======
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/Jmeter-step-by-step/"  data-tooltip="JMeter from Scratch - Step by Step Tutorial">
->>>>>>> 253e5ec351db64e4d9ced15abba49e299c818a2b
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -256,7 +256,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/07/some-guideline-on-writing-better-query/" data-tooltip="Some guidelines on writing a better SQL query">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/19/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -266,17 +266,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/07/reading-response-dialogue/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/19/Map/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
