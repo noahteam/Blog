@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>Routing in .Net MVC5 - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Routing in .Net MVC5</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Sun Jul 26 2015 23:13:17 GMT+0800">
+        Jul 26, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <h2 id="About">About</h2><p><img src="https://lh3.googleusercontent.com/gI1hs7q9a0Cp4pa4hjuwW7CzTXg2GfGjUmCBv4xXX9g=w879-h414-no" alt="MVC Routing" title="MVC Routing"><br>ASP.NET MVC store all the routing rules in a <strong>RouteTable.Routes</strong> static object. When a HTTP request sent from browser, .NET will find a match routing rule in <strong>RouteTable.Routes</strong>, to decide whether it should be handled by MvcHandler or other HttpHandler.<br>In this post, we will introduce how routing works in .NET MVC.</p>
+<h2 id="RouteConfig-cs">RouteConfig.cs</h2><p>In .NET MVC5, <strong>RouteConfig.cs</strong> is inside <strong>App_Start</strong> folder (.NET MVC4 and older version, URL Routing is registered in <strong>Global.asax</strong>).</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterRoutes</span> (<span class="params">RouteCollection routes</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    routes.IgnoreRoute(<span class="string">"&#123;resource&#125;.axd/&#123;*pathInfo&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: <span class="string">"Default"</span>,</span><br><span class="line">        url: <span class="string">"&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;"</span>,</span><br><span class="line">        defaults: <span class="keyword">new</span> &#123; controller = <span class="string">"Home"</span>, action = <span class="string">"Index"</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="IgnoreRoute">IgnoreRoute</h2><p>Line3: <strong>IgnoreRoute</strong> is used for skipping matched URL patterns, in order to prevent <strong>MvcHandler</strong> to handle something not belongs to ASP.NET MVC. In above example, it will ignore all the <strong>.axd</strong> request. {resource} and {pathInfo} are something similar with <strong>{0}</strong> in <strong>String.Format</strong>. They will be replaced with a real URL. Noted there’s a <strong>*</strong> in {pathInfo} which mean include the whole URL.<br>For example: <strong>test.asd/detail/sports/3</strong><br>{pathInfo} you will get <strong>detail</strong><br>{*pathInfo} you will get <strong>detail/sports/3</strong></p>
+<h2 id="MapRoute">MapRoute</h2><p>MapRoute parameters used <a href="https://msdn.microsoft.com/en-us/library/dd264739.aspx" title="Named and Optional Arguments" target="_blank" rel="external">Named and Optional Arguments</a> which introduced in C# 4.0.<br>Line6: <strong>name</strong> must be unique.<br>Line7: <strong>url</strong> define URL Routing patterns, you could define your own pattern here.<br>Line8: <strong>default</strong> when the URL does not match any patterns that defined before default, then it will use default pattern. Note that the <strong>id</strong> is set to <strong>UrlParameter.Optional</strong> which mean id is optional in URL parameters.</p>
+<h2 id="Add_a_self_define_URL_Routing">Add a self define URL Routing</h2><p>For example, we have a controller called <strong>Home</strong> and there are 2 actions under <strong>Home</strong> which are <strong>About</strong> and <strong>Contact</strong>. In order to hide <strong>Home</strong> from URL, we can add a self define URL Routing.</p>
+<table>
+<thead>
+<tr>
+<th>URL before adding Test</th>
+<th style="text-align:center">URL after adding Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://localhost/Home/About" target="_blank" rel="external">http://localhost/Home/About</a></td>
+<td style="text-align:center"><a href="http://localhost/About" target="_blank" rel="external">http://localhost/About</a></td>
+</tr>
+<tr>
+<td><a href="http://localhost/Home/Contact" target="_blank" rel="external">http://localhost/Home/Contact</a></td>
+<td style="text-align:center"><a href="http://localhost/Contact" target="_blank" rel="external">http://localhost/Contact</a></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterRoutes</span> (<span class="params">RouteCollection routes</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    routes.IgnoreRoute(<span class="string">"&#123;resource&#125;.axd/&#123;*pathInfo&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: <span class="string">"Test"</span>,</span><br><span class="line">        url: <span class="string">"&#123;action&#125;/&#123;id&#125;"</span>, <span class="comment">//remove &#123;controller&#125;</span></span><br><span class="line">        defaults: <span class="keyword">new</span> &#123; controller = <span class="string">"Home"</span>, action = <span class="string">"Index"</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: <span class="string">"Default"</span>,</span><br><span class="line">        url: <span class="string">"&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;"</span>,</span><br><span class="line">        defaults: <span class="keyword">new</span> &#123; controller = <span class="string">"Home"</span>, action = <span class="string">"Index"</span>, id = UrlParameter.Optional &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Note">Note</h2><p>Please note that not all routes are created equally. Routes have priority defined by the order of appearance of the routes in the <strong>RouteConfig.cs</strong> file. The priority goes from <strong>top to bottom</strong>. The last route in that file is at the lowest priority and will be applied last. If no route matches, 404 is returned.</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Net/">.Net</a> <a class="tag tag--primary tag--small t-link" href="/tags/MVC5/">MVC5</a> <a class="tag tag--primary tag--small t-link" href="/tags/Routing/">Routing</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/22/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/22/mvc5-complex-object-model-binding/" data-tooltip="MVC 5 Complex Object Model Binding">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>

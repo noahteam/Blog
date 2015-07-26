@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://noahteam.com/2015/07/26/routing-in-dot-net-mvc5/</loc>
+    <lastmod>2015-07-26T17:14:11.221Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://noahteam.com/2015/07/22/Session-State-for-IIS-7/</loc>
+    <lastmod>2015-07-26T15:10:36.274Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://noahteam.com/all-tags/index.html</loc>
     <lastmod>2015-07-22T10:32:27.781Z</lastmod>
   </url>

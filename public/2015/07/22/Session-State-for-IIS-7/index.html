@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Noah Team&#39;s Blog">
+    <title>Session State for IIS 7 - Noah Team&#39;s Blog</title>
+    <meta name="author" content="Noah">
+    <meta name="description" content="Noah Team&#39;s Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-64687045-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://noahteam.com">Noah Team&#39;s Blog</a>
+    </h1>
+    
+        <a class="header-right-picture" href="/#about">
+            <img class="header-picture" src="/assets/images/titanavatar.png"/>
+        </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="1">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="/assets/images/titanavatar.png"/>
+            
+        </a>
+        <span class="sidebar-profile-name">Noah</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-categories">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-tags">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/all-archives">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link st-search-show-outputs" href="/#search">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/#about">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link " href="/atom.xml">
+            
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main" data-behavior="1">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Session State for IIS 7</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Wed Jul 22 2015 09:20:22 GMT+0800">
+        Jul 22, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <h2 id="About">About</h2><p>For IIS 7 there are four modes of Session State.</p>
+<ol>
+<li><strong>InProc mode</strong>, which stores session state in memory on the web server. This is the default.</li>
+<li><strong>StateServer mode</strong>, which stores session state in a separate process called the ASP.NET state service. This ensures that session state is preserved if the Web application is restarted and also makes session state available to multiple Web servers in a Web farm.</li>
+<li><strong>SQLServer mode</strong> stores session state in a SQL Server database. This ensures that session state is preserved if the Web application is restarted and also makes session state available to multiple Web servers in a Web farm.</li>
+<li><strong>Custom mode</strong>, which enables you to specify a custom storage provider.</li>
+<li><strong>Off mode</strong>, which disables session state.</li>
+</ol>
+<p>This article will be focusing on the first three modes.</p>
+<h2 id="InProc_mode">InProc mode</h2><p>This mode is the default session state mode when you first set up an website in IIS and it is the only mode which support Session_OnEnd event. From the previous prargraph, we know it strores the session state in memory on the web server. To be more specific, it stored the session in the worker process (w3wp.exe) which runs the site. So it has the same life cycle of AppDomain of web application. Several factors below will cause AppDomain to be restarted.</p>
+<ol>
+<li>Many attributes (for example, the idleTimeout attribute) have particular settings in the <processmodel> section of the configuration file.</processmodel></li>
+<li>Modification of Global.asax or the Web.config file.(Some antivirus software will mark these two files as modified which may also cause recycle)</li>
+<li>Modification of the bin directory of web application.</li>
+</ol>
+<p>In many situations, this may not be the best way to manage user sessions. </p>
+<h2 id="StateServer_mode">StateServer mode</h2><p>StateServer mode store session in a process which is seperate from w3wp.exe worker process or application pool. It ensures the session preserved if the web application restarted and also makse session state availiable to multiple web servers in a web farm.</p>
+<p>To use StateServer mode, the first thing we need to ensure is that state service is running on the server used to store session. ASP.NET state service is installed in systemroot\Microsoft.NET\Framework\versionNumber\aspnet_state.exe, or you could use UI to start the service.</p>
+<ol>
+<li><p>Press Win + R to call out the Run dialog box. Type services.msc and click OK.<br><img src="https://lh3.googleusercontent.com/xn0So5qvosJ2f_EaI7bZJpwZVzxJ4BKPPiPGljXTsp4=w472-h278-no" alt="run services.msc"></p>
+</li>
+<li><p>Find the service named <strong>ASP.NET State Service</strong> and check the status make sure it is <strong>started</strong><br><img src="https://lh3.googleusercontent.com/jn2J9aFLU81QwgveEzatZSOoSEmWMD-ovWo8Gmsidus=w761-h225-no" alt="ASP.NET State Service"></p>
+</li>
+<li><p>If not double click the service and change startup type to <strong>Automatic</strong> and click <strong>Start</strong><br><img src="https://lh3.googleusercontent.com/O8yd78jqnTR5TO3NK4aEs05Bps2sneQdvAW43FlOsy4=w554-h578-no" alt="Start State Service"></p>
+</li>
+</ol>
+<p>After make sure ASP.NET State Service is started, add following configuration to web.config<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">sessionState</span> <span class="attribute">mode</span>=<span class="value">"StateServer"</span></span><br><span class="line">      <span class="attribute">stateConnectionString</span>=<span class="value">"tcpip=SampleStateServer:42424"</span></span><br><span class="line">      <span class="attribute">cookieless</span>=<span class="value">"false"</span></span><br><span class="line">      <span class="attribute">timeout</span>=<span class="value">"20"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">system.web</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Change the SampleStateServer to the ip of your state server.</p>
+<h2 id="SQL_Server_Mode">SQL Server Mode</h2><p>SQLServer mode stores session state in SQL Server daatabase. </p>
+<p>To install the session state database on SQL Server, run the Aspnet_regsql.exe tool located in the systemroot\Microsoft.NET\Framework\versionNumber folder on your Web server. Supply the following information with the command:</p>
+<ol>
+<li>The name of the SQL Server instance, using the -S option.</li>
+<li>The logon credentials for an account that has permission to create a database on SQL Server. Use the -E option to use the currently logged-on user, or use the -U option to specify a user ID along with the -P option to specify a password.</li>
+<li>The -ssadd command-line option to add the session state database.</li>
+</ol>
+<p>By default, you cannot use the Aspnet_regsql.exe tool to install the session state database on SQL Server Express. In order to run the Aspnet_regsql.exe tool to install a SQL Server Express database, you must first enable the Agent XPs SQL Server option using Transact-SQL commands like the following:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">EXECUTE</span> sp_configure <span class="string">'show advanced options'</span>, <span class="number">1</span></span><br><span class="line">RECONFIGURE <span class="keyword">WITH</span> OVERRIDE</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXECUTE</span> sp_configure <span class="string">'Agent XPs'</span>, <span class="number">1</span></span><br><span class="line">RECONFIGURE <span class="keyword">WITH</span> OVERRIDE</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXECUTE</span> sp_configure <span class="string">'show advanced options'</span>, <span class="number">0</span></span><br><span class="line">RECONFIGURE <span class="keyword">WITH</span> OVERRIDE</span><br><span class="line"><span class="keyword">GO</span></span></span><br></pre></td></tr></table></figure></p>
+<p>You must run these Transact-SQL commands for any instance of SQL Server Express where the Agent XPs option is disabled.<br>By default, the Aspnet_regsql.exe tool will create a database named ASPState containing stored procedures that support SQLServer mode. Session data itself is stored in the tempdb database by default. You can optionally use the -sstype option to change the storage location of session data. The following table specifies the possible values for the -sstype option:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Option</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">t</td>
+<td style="text-align:center">Stores session data in the SQL Server tempdb database. This is the default. If you store session data in the tempdb database, the session data is lost if SQL Server is restarted.</td>
+</tr>
+<tr>
+<td style="text-align:center">p</td>
+<td style="text-align:center">Stores session data in the ASPState database instead of in the tempdb database.</td>
+</tr>
+<tr>
+<td style="text-align:center">c</td>
+<td style="text-align:center">Stores session data in a custom database. If you specify the c option, you must also include the name of the custom database using the -d option.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, the following command creates a database named ASPState on a SQL Server instance named “SampleSqlServer” and specifies that session data is also stored in the ASPState database:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aspnet_regsql.exe -S SampleSqlServer -E -ssadd -sstype p</span><br></pre></td></tr></table></figure></p>
+<h2 id="Tips">Tips</h2><p>One thing need to be careful is that Objects stored in session must be serializable if using this mode. The simple way is to add SerializableAttribute to the class like below.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Serializable()]</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectSaveToSession</span></span>&#123;</span><br><span class="line">	<span class="comment">/*</span><br><span class="line">	some attribute or method here</span><br><span class="line">	*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/IIS/">IIS</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/22/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/implement-permission-control-for-mvc5-project/" data-tooltip="Implement Permission Control for MVC5 Project">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Noah. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/22/Binding Event on Datatables/"  data-tooltip="Binding Event on Datatables">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/implement-permission-control-for-mvc5-project/" data-tooltip="Implement Permission Control for MVC5 Project">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://noahteam.com/2015/07/22/Session-State-for-IIS-7/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/titanavatar.png"/>
+        
+            <h4 id="about-card-name">Noah</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'noahteam';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+
+</html>
